@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HKWorx Payroll System - Login & Registration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <style>
+    /* Reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    body, html {
+      margin: 0; padding: 0;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e6e1d3 0%, #b9a978 100%);
+      color: #3e423f;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    /* Header */
+    header {
+      background: #4a4a4a;
+      color: #fadb73;
+      padding: 1rem 2rem;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+      user-select: none;
+      flex-shrink: 0;
+    }
+    header > span {
+      font-weight: 900;
+      color: #f1c40f;
+    }
+
+    /* Main container - two column layout */
+    main {
+      flex-grow: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 0; /* for proper scrolling inside */
+      margin: 2rem auto 4rem;
+      max-width: 960px;
+      box-shadow:
+        0 20px 40px rgb(0 0 0 / 0.12);
+      border-radius: 24px;
+      overflow: hidden;
+      background: #fffdfa;
+      user-select: none;
+    }
+
+    /* Left Panel */
+    .welcome-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px 48px 48px 64px;
+      background: linear-gradient(135deg, #b9a978 0%, #7f744b 100%);
+      color: #3e3c32;
+      text-shadow: 0 2px 6px rgb(255 255 255 / 0.5);
+    }
+    .welcome-panel h1 {
+      font-size: 3.2rem;
+      margin: 0 0 18px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+    .welcome-panel p {
+      font-size: 1.15rem;
+      line-height: 1.6;
+      max-width: 360px;
+      margin: 0 0 32px;
+      color: #2f2c20;
+      user-select: text;
+    }
+    .welcome-panel img {
+      max-width: 500%;
+      max-height: 500px;
+      object-fit: contain;
+      user-select: none;
+    }
+
+    /* Right Panel */
+    .auth-panel {
+      padding: 48px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: #faf7f0;
+      color: #4a4a4a;
+    }
+    .auth-panel h2 {
+      font-weight: 900;
+      font-size: 2rem;
+      margin-bottom: 8px;
+      letter-spacing: 0.04em;
+    }
+    .auth-panel p.subtitle {
+      margin-top: 0; margin-bottom: 32px;
+      color: #7d7d7d;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: inline-block;
+    }
+    input[type="text"], input[type="email"], input[type="password"], select {
+      padding: 12px 14px;
+      font-size: 1rem;
+      border-radius: 14px;
+      border: 1.8px solid #c6b97a;
+      font-family: 'Poppins', sans-serif;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      font-weight: 600;
+      color: #4a4a4a;
+    }
+    input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, select:focus {
+      outline: none;
+      border-color: #9f7600;
+      box-shadow: 0 0 10px #b59a31aa;
+    }
+    .form-grid {
+      display: grid;
+      gap: 20px 28px;
+      grid-template-columns: 1fr 1fr;
+    }
+    .form-grid.full {
+      grid-template-columns: 1fr;
+    }
+
+    /* Role selector tabs */
+    .role-tabs {
+      display: flex;
+      border: 2px solid #c6b97a;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 32px;
+      user-select: none;
+    }
+    .role-tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px 0;
+      font-weight: 700;
+      cursor: pointer;
+      background: #f7f2d8;
+      color: #6b654a;
+      transition: background 0.35s, color 0.35s;
+      user-select: none;
+      border-right: 1px solid #c6b97a;
+    }
+    .role-tab:last-child {
+      border-right: none;
+    }
+    .role-tab.active {
+      background: linear-gradient(135deg, #cc9733 0%, #9f7600 100%);
+      color: #fffdfa;
+      box-shadow: 0 10px 24px rgb(204 151 51 / 0.60);
+    }
+
+    /* Submit button */
+    button.submit-btn {
+      background: linear-gradient(45deg, #cc9733 0%, #9f7600 100%);
+      color: #fffdfa;
+      font-weight: 700;
+      font-size: 1.15rem;
+      padding: 18px 0;
+      border-radius: 48px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 32px rgb(204 151 51 / 0.75);
+      transition: background 0.4s ease, transform 0.3s ease;
+      user-select: none;
+      letter-spacing: 0.05em;
+      margin-top: 12px;
+    }
+    button.submit-btn:hover {
+      background: linear-gradient(135deg, #e2b346 0%, #b18200 100%);
+      box-shadow: 0 14px 40px rgb(226 179 70 / 0.85);
+      transform: translateY(-3px) scale(1.05);
+    }
+
+    /* Toggle form link */
+    .toggle-link {
+      margin-top: 20px;
+      text-align: center;
+      font-weight: 600;
+      color: #9f7600;
+      cursor: pointer;
+      text-decoration: underline;
+      user-select: none;
+      transition: color 0.25s ease;
+    }
+    .toggle-link:hover {
+      color: #cc9733;
+    }
+
+    /* Validation error messages */
+    .error-msg {
+      color: #dc2626;
+      font-weight: 600;
+      font-size: 0.875rem;
+      margin-top: -12px;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 870px) {
+      main {
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+        max-width: 480px;
+        margin: 2rem auto 3rem;
+        box-shadow: 0 12px 28px rgb(189 190 189 / 0.4);
+      }
+      .welcome-panel {
+        padding: 32px 24px 24px;
+        border-radius: 24px 24px 0 0;
+        max-height: 180px;
+        overflow: hidden;
+        text-align: center;
+      }
+      .auth-panel {
+        padding: 36px 24px 48px;
+        border-radius: 0 0 24px 24px;
+      }
+      .welcome-panel h1 {
+        font-size: 2.4rem;
+      }
+      .welcome-panel p {
+        font-size: 1rem;
+        max-width: 100%;
+        margin-bottom: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header aria-label="HKWorx Branding">
+    <span>HKWorx</span> Payroll System
+  </header>
+
+  <main role="main" aria-labelledby="auth-heading">
+    <section class="welcome-panel" aria-hidden="true">
+      <h1>Welcome to HKWorx Payroll</h1>
+      <p>Your trusted construction payroll management solution.</p>
+      <img src="/Images/sample logo.png" alt="Illustration showing construction workers collaborating with digital payroll documentation." width="360" height="180" />
+    </section>
+
+    <section class="auth-panel">
+      <h2 id="auth-heading">Sign In to Your Account</h2>
+      <p class="subtitle" id="form-subheading">For Admins and Employees</p>
+
+      <div class="role-tabs" role="tablist" aria-label="Select role to sign in as">
+        <button id="tab-admin" role="tab" aria-selected="true" aria-controls="admin-form" tabindex="0" class="role-tab active" type="button">Admin</button>
+        <button id="tab-employee" role="tab" aria-selected="false" aria-controls="employee-form" tabindex="-1" class="role-tab" type="button">Employee</button>
+      </div>
+
+      <form id="auth-form" novalidate aria-describedby="form-subheading" aria-live="polite" aria-atomic="true">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" autocomplete="username" placeholder="you@example.com" required />
+        <div id="email-error" class="error-msg" role="alert" aria-live="assertive">Please enter a valid email address.</div>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" autocomplete="current-password" placeholder="••••••••" required minlength="6" />
+        <div id="password-error" class="error-msg" role="alert" aria-live="assertive">Password must be at least 6 characters.</div>
+
+        <button type="submit" class="submit-btn" id="submit-btn">Sign In</button>
+      </form>
+
+      <a href="#" id="toggle-auth" class="toggle-link" aria-label="Switch to Sign Up">Don't have an account? Sign Up</a>
+    </section>
+  </main>
+
+  <script>
+    // Elements
+    const adminTab = document.getElementById('tab-admin');
+    const employeeTab = document.getElementById('tab-employee');
+    const authForm = document.getElementById('auth-form');
+    const toggleAuth = document.getElementById('toggle-auth');
+    const formSubheading = document.getElementById('form-subheading');
+    const submitBtn = document.getElementById('submit-btn');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const emailError = document.getElementById('email-error');
+    const passwordError = document.getElementById('password-error');
+
+    let currentRole = 'admin';
+    let isSignUp = false;
+
+    // Role tab event handlers
+    adminTab.addEventListener('click', () => switchRole('admin'));
+    employeeTab.addEventListener('click', () => switchRole('employee'));
+
+    function switchRole(role) {
+      currentRole = role;
+      isSignUp = false;
+      updateUI();
+    }
+
+    // Toggle SignIn/SignUp mode
+    toggleAuth.addEventListener('click', e => {
+      e.preventDefault();
+      isSignUp = !isSignUp;
+      updateUI();
+      authForm.reset();
+      emailError.style.display = 'none';
+      passwordError.style.display = 'none';
+      const confirmPasswordError = document.getElementById('confirm-password-error');
+      if(confirmPasswordError) confirmPasswordError.style.display = 'none';
+    });
+
+    function updateUI() {
+      // Update tab selection
+      if(currentRole === 'admin') {
+        adminTab.classList.add('active');
+        adminTab.setAttribute('aria-selected', 'true');
+        adminTab.tabIndex = 0;
+        employeeTab.classList.remove('active');
+        employeeTab.setAttribute('aria-selected', 'false');
+        employeeTab.tabIndex = -1;
+      } else {
+        employeeTab.classList.add('active');
+        employeeTab.setAttribute('aria-selected', 'true');
+        employeeTab.tabIndex = 0;
+        adminTab.classList.remove('active');
+        adminTab.setAttribute('aria-selected', 'false');
+        adminTab.tabIndex = -1;
+      }
+
+      // Clear previous sign-up fields first (if any)
+      const fnContainer = document.getElementById('full-name-container');
+      if(fnContainer) fnContainer.remove();
+      const cpContainer = document.getElementById('confirm-password-container');
+      if(cpContainer) cpContainer.remove();
+
+      if (isSignUp) {
+        formSubheading.textContent = currentRole === 'admin' ? 
+          'Create an Administrator Account' : 'Create an Employee Account';
+        submitBtn.textContent = 'Sign Up';
+
+        // Add Full Name fields for sign up
+        const divFullName = document.createElement('div');
+        divFullName.classList.add('form-grid');
+        divFullName.id = 'full-name-container';
+
+        const divFirstName = document.createElement('div');
+        divFirstName.classList.add('form-group');
+        divFirstName.innerHTML = `
+          <label for="first-name">First Name</label>
+          <input type="text" id="first-name" name="firstName" autocomplete="given-name" placeholder="First Name" required />
+        `;
+
+        const divLastName = document.createElement('div');
+        divLastName.classList.add('form-group');
+        divLastName.innerHTML = `
+          <label for="last-name">Last Name</label>
+          <input type="text" id="last-name" name="lastName" autocomplete="family-name" placeholder="Last Name" required />
+        `;
+        divFullName.appendChild(divFirstName);
+        divFullName.appendChild(divLastName);
+
+        // Insert full name fields before email label
+        authForm.insertBefore(divFullName, emailInput.parentElement);
+
+        // Confirm Password field
+        const confirmPassDiv = document.createElement('div');
+        confirmPassDiv.classList.add('form-group');
+        confirmPassDiv.id = 'confirm-password-container';
+        confirmPassDiv.innerHTML = `
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" id="confirm-password" name="confirmPassword" autocomplete="new-password" placeholder="••••••••" required minlength="6" />
+          <div id="confirm-password-error" class="error-msg" role="alert" aria-live="assertive">Passwords do not match.</div>
+        `;
+        authForm.insertBefore(confirmPassDiv, submitBtn);
+      } else {
+        formSubheading.textContent = currentRole === 'admin' ? 
+          'Administrator Sign In' : 'Employee Sign In';
+        submitBtn.textContent = 'Sign In';
+      }
+
+      // Clear form fields on UI update
+      authForm.reset();
+    }
+
+    // Validation helpers
+    function validateEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function validateForm() {
+      let valid = true;
+
+      if (!validateEmail(emailInput.value.trim())) {
+        emailError.style.display = 'block';
+        valid = false;
+      } else {
+        emailError.style.display = 'none';
+      }
+
+      if (passwordInput.value.trim().length < 6) {
+        passwordError.style.display = 'block';
+        valid = false;
+      } else {
+        passwordError.style.display = 'none';
+      }
+
+      if (isSignUp) {
+        const firstName = document.getElementById('first-name');
+        const lastName = document.getElementById('last-name');
+        const confirmPassword = document.getElementById('confirm-password');
+        const confirmPasswordError = document.getElementById('confirm-password-error');
+
+        if (!firstName.value.trim() || !lastName.value.trim()) {
+          alert('Please enter both first name and last name.');
+          valid = false;
+        }
+
+        if (confirmPassword.value !== passwordInput.value) {
+          confirmPasswordError.style.display = 'block';
+          valid = false;
+        } else {
+          confirmPasswordError.style.display = 'none';
+        }
+      }
+      return valid;
+    }
+
+    // Form submission handler
+    authForm.addEventListener('submit', e => {
+      e.preventDefault();
+      if (!validateForm()) return;
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if (isSignUp) {
+        const firstName = document.getElementById('first-name').value.trim();
+        const lastName = document.getElementById('last-name').value.trim();
+
+        alert(`Signed up successfully as ${currentRole}:\n${firstName} ${lastName}\nEmail: ${email}`);
+        isSignUp = false;
+        updateUI();
+      } else {
+        alert(`Welcome back ${currentRole === 'admin' ? 'Administrator' : 'Employee'}:\n${email}`);
+        window.location.href = 'hkworx-payroll-system.html';  // Replace with your app path
+      }
+    });
+
+    // Initialize UI on load
+    window.onload = () => {
+      updateUI();
+    };
+
+  </script>
+</body>
+</html>
