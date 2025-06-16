@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HKWorx - Employee Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --primary-dark: #3a0ca3;
+            --secondary: #f72585;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --success: #4ad66d;
+            --warning: #f8961e;
+            --danger: #ef233c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 260px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-header img {
+            width: 40px;
+            margin-right: 10px;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.2rem;
+            color: var(--primary-dark);
+        }
+
+        .sidebar-menu {
+            padding: 1rem 0;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .menu-category {
+            color: var(--gray);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 1rem 1.5rem 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+
+        .menu-item.active {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+        }
+
+        .menu-item i {
+            width: 24px;
+            margin-right: 10px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-footer {
+            padding: 1rem;
+            border-top: 1px solid var(--light-gray);
+            text-align: center;
+        }
+
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 10;
+        }
+
+        .header-search {
+            position: relative;
+            width: 300px;
+        }
+
+        .header-search input {
+            width: 100%;
+            padding: 0.6rem 1rem 0.6rem 35px;
+            border: 1px solid var(--light-gray);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .header-search input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .header-search i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            margin-left: 1.5rem;
+        }
+
+        .user-profile img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        .user-profile .user-info {
+            line-height: 1.3;
+        }
+
+        .user-profile .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-profile .user-role {
+            font-size: 0.7rem;
+            color: var(--gray);
+        }
+
+        /* Dashboard Content Styles */
+        .dashboard-content {
+            padding: 2rem;
+            flex-grow: 1;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title h1 {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+
+        .page-title p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card.warning {
+            border-left-color: var(--warning);
+        }
+
+        .stat-card.success {
+            border-left-color: var(--success);
+        }
+
+        .stat-card.danger {
+            border-left-color: var(--danger);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-title {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .stat-card.warning .stat-icon {
+            background-color: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+
+        .stat-card.success .stat-icon {
+            background-color: rgba(74, 214, 109, 0.1);
+            color: var(--success);
+        }
+
+        .stat-card.danger .stat-icon {
+            background-color: rgba(239, 35, 60, 0.1);
+            color: var(--danger);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .stat-change.positive {
+            color: var(--success);
+        }
+
+        .stat-change.negative {
+            color: var(--danger);
+        }
+
+        .stat-change i {
+            margin-right: 3px;
+        }
+
+        /* Main Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 1200px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Project Progress Section */
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .card-actions a {
+            color: var(--primary);
+            font-size: 0.8rem;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .project-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .project-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-name {
+            font-weight: 600;
+        }
+
+        .project-status {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .status-active {
+            background-color: rgba(74, 214, 109, 0.1);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background-color: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+
+        .status-completed {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+
+        .project-progress {
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            background-color: var(--primary);
+            width: 0;
+            transition: width 1s ease-in-out;
+        }
+
+        .progress-fill.warning {
+            background-color: var(--warning);
+        }
+
+        .progress-fill.success {
+            background-color: var(--success);
+        }
+
+        .project-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* Recent Activity Section */
+        .activity-item {
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.warning {
+            background-color: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+
+        .activity-icon.success {
+            background-color: rgba(74, 214, 109, 0.1);
+            color: var(--success);
+        }
+
+        .activity-icon.danger {
+            background-color: rgba(239, 35, 60, 0.1);
+            color: var(--danger);
+        }
+
+        .activity-content {
+            flex-grow: 1;
+        }
+
+        .activity-title {
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+
+        .activity-description {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 0.3rem;
+        }
+
+        .activity-time {
+            font-size: 0.7rem;
+            color: var(--gray);
+        }
+
+        /* Team Members Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .team-member {
+            text-align: center;
+        }
+
+        .member-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 0.5rem;
+            border: 3px solid white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .member-name {
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .member-role {
+            font-size: 0.7rem;
+            color: var(--gray);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                top: 0;
+                bottom: 0;
+                z-index: 1000;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .sidebar-toggle {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem;
+            }
+
+            .header-search {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .user-profile {
+                margin-left: 0;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Toggle Button (Mobile) -->
+    <div class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="https://via.placeholder.com/40x40?text=HK" alt="HKWorx Logo">
+            <h2>HKWorx Payroll</h2>
+        </div>
+
+        <div class="sidebar-menu">
+            <div class="menu-item active">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </div>
+
+            <div class="menu-category">Employee</div>
+            <a href="/Tentative Payroll System HKWorx/My profile Employee.html" class="menu-item">
+                <i class="fas fa-user"></i>
+                <span>My Profile</span>
+            </a>
+            <a href="/Tentative Payroll System HKWorx/My Attendance Employee.html" class="menu-item">
+                <i class="fas fa-clock"></i>
+                <span>My Attendance</span>
+            </a>
+            <a href="/Tentative Payroll System HKWorx/My Payslip Employee.html" class="menu-item">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>My Payslips</span>
+            </a>
+            <a href="/Tentative Payroll System HKWorx/My Schedule Employee.html" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>My Schedule</span>
+            </a>
+
+            <div class="menu-category">Projects</div>
+            <a href="#" class="menu-item">
+                <i class="fas fa-hard-hat"></i>
+                <span>My Projects</span>
+            </a>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="user-profile">
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+
+            <div class="user-profile">
+                <img src="https://via.placeholder.com/36x36" alt="User Profile">
+                <div class="user-info">
+                    <div class="user-name">Employee Name</div>
+                    <div class="user-role">Employee</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>Employee Dashboard</h1>
+                    <p>Welcome back! Here's your work summary.</p>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Hours Worked</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">0</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>This week</span>
+                    </div>
+                </div>
+
+                <div class="stat-card warning">
+                    <div class="stat-header">
+                        <div class="stat-title">Current Project</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-hard-hat"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">--</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Status</span>
+                    </div>
+                </div>
+
+                <div class="stat-card success">
+                    <div class="stat-header">
+                        <div class="stat-title">Next Payday</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">--</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-info-circle"></i>
+                        <span>--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="content-grid">
+                <!-- Left Column -->
+                <div class="left-column">
+                    <!-- Current Project Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">My Current Project</div>
+                        </div>
+
+                        <div class="project-item">
+                            <div class="project-header">
+                                <div class="project-name">No assigned project</div>
+                                <div class="project-status status-pending">--</div>
+                            </div>
+                            <div class="project-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="project-details">
+                                <span>Start Date: --</span>
+                                <span>Due: --</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Payslips Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">My Recent Payslips</div>
+                        </div>
+
+                        <div class="project-item">
+                            <div class="project-header">
+                                <div class="project-name">No payslips yet</div>
+                                <div class="project-status status-completed">--</div>
+                            </div>
+                            <div class="project-details">
+                                <span>Period: --</span>
+                                <span>Amount: ₱0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="right-column">
+                    <!-- Recent Activity Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">My Recent Activity</div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">No recent activity</div>
+                                <div class="activity-description">Your activity will appear here</div>
+                                <div class="activity-time">--</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Members Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">My Team</div>
+                        </div>
+
+                        <div class="team-grid">
+                            <div class="team-member">
+                                <img src="https://via.placeholder.com/60x60" class="member-avatar">
+                                <div class="member-name">Team Member</div>
+                                <div class="member-role">Role</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+
+        // Initialize empty state
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                bar.style.width = '0';
+            });
+        });
+    </script>
+</body>
+</html>

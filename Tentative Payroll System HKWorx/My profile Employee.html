@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HKWorx - My Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --primary-dark: #3a0ca3;
+            --secondary: #f72585;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --success: #4ad66d;
+            --warning: #f8961e;
+            --danger: #ef233c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 260px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-header img {
+            width: 40px;
+            margin-right: 10px;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.2rem;
+            color: var(--primary-dark);
+        }
+
+        .sidebar-menu {
+            padding: 1rem 0;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .menu-category {
+            color: var(--gray);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 1rem 1.5rem 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+
+        .menu-item.active {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+        }
+
+        .menu-item i {
+            width: 24px;
+            margin-right: 10px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-footer {
+            padding: 1rem;
+            border-top: 1px solid var(--light-gray);
+            text-align: center;
+        }
+
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 10;
+        }
+
+        .header-search {
+            position: relative;
+            width: 300px;
+        }
+
+        .header-search input {
+            width: 100%;
+            padding: 0.6rem 1rem 0.6rem 35px;
+            border: 1px solid var(--light-gray);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .header-search input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .header-search i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            margin-left: 1.5rem;
+        }
+
+        .user-profile img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        .user-profile .user-info {
+            line-height: 1.3;
+        }
+
+        .user-profile .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-profile .user-role {
+            font-size: 0.7rem;
+            color: var(--gray);
+        }
+
+        /* Profile Content Styles */
+        .profile-content {
+            padding: 2rem;
+            flex-grow: 1;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title h1 {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+
+        .page-title p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Profile Layout */
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 992px) {
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1.5rem;
+            border: 5px solid var(--light);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-position {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-details {
+            text-align: left;
+            margin-top: 2rem;
+        }
+
+        .detail-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 0.3rem;
+        }
+
+        .detail-value {
+            font-weight: 500;
+        }
+
+        .btn-upload {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-upload i {
+            margin-right: 8px;
+        }
+
+        /* Profile Info Card */
+        .info-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .info-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .btn-edit {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-edit i {
+            margin-right: 5px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            font-weight: 500;
+            padding: 0.8rem;
+            background: var(--light);
+            border-radius: 5px;
+        }
+
+        /* Emergency Contacts */
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .contact-card {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .contact-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-relation {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-details div {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-details i {
+            margin-right: 8px;
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                top: 0;
+                bottom: 0;
+                z-index: 1000;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .sidebar-toggle {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem;
+            }
+
+            .header-search {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            .profile-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Toggle Button (Mobile) -->
+    <div class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="https://via.placeholder.com/40x40?text=HK" alt="HKWorx Logo">
+            <h2>HKWorx Payroll</h2>
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="/Tentative Payroll System HKWorx/Dashboard Employee.html" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <div class="menu-category">Employee</div>
+            <a href="/Tentative Payroll System HKWorx/My profile Employee.html" class="menu-item active">
+                <i class="fas fa-user"></i>
+                <span>My Profile</span>
+            </a>
+            <a href="/Tentative Payroll System HKWorx/My Attendance Employee.html" class="menu-item">
+                <i class="fas fa-clock"></i>
+                <span>My Attendance</span>
+            </a>
+            <a href="employee-payslips.html" class="menu-item">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>My Payslips</span>
+            </a>
+            <a href="employee-schedule.html" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>My Schedule</span>
+            </a>
+
+            <div class="menu-category">Projects</div>
+            <a href="employee-projects.html" class="menu-item">
+                <i class="fas fa-hard-hat"></i>
+                <span>My Projects</span>
+            </a>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <img src="https://via.placeholder.com/36x36" alt="User Profile">
+                <div class="user-info">
+                    <div class="user-name">Employee Name</div>
+                    <div class="user-role">Employee</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+
+            <div class="user-profile">
+                <img src="https://via.placeholder.com/36x36" alt="User Profile">
+                <div class="user-info">
+                    <div class="user-name">Employee Name</div>
+                    <div class="user-role">Employee</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Content -->
+        <div class="profile-content">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>My Profile</h1>
+                    <p>View and manage your personal information</p>
+                </div>
+            </div>
+
+            <div class="profile-layout">
+                <!-- Profile Card -->
+                <div class="profile-card">
+                    <img src="https://via.placeholder.com/150x150" class="profile-avatar" id="profileAvatar">
+                    <h2 class="profile-name" id="employeeName">Employee Name</h2>
+                    <div class="profile-position" id="employeePosition">Position</div>
+                    
+                    <button class="btn-upload" id="uploadPhotoBtn">
+                        <i class="fas fa-camera"></i> Upload Photo
+                    </button>
+                    
+                    <div class="profile-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Employee ID</div>
+                            <div class="detail-value" id="employeeId">--</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Date Hired</div>
+                            <div class="detail-value" id="dateHired">--</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Department</div>
+                            <div class="detail-value" id="department">--</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Project</div>
+                            <div class="detail-value" id="currentProject">--</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Information -->
+                <div>
+                    <!-- Personal Information -->
+                    <div class="info-card">
+                        <div class="info-header">
+                            <h3 class="info-title">Personal Information</h3>
+                            <button class="btn-edit">
+                                <i class="fas fa-pencil-alt"></i> Edit
+                            </button>
+                        </div>
+                        
+                        <div class="info-grid">
+                            <div class="info-group">
+                                <div class="info-label">Full Name</div>
+                                <div class="info-value" id="fullName">--</div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">Date of Birth</div>
+                                <div class="info-value" id="birthDate">--</div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">Gender</div>
+                                <div class="info-value" id="gender">--</div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">Marital Status</div>
+                                <div class="info-value" id="maritalStatus">--</div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">Nationality</div>
+                                <div class="info-value" id="nationality">--</div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">Contact Number</div>
+                                <div class="info-value" id="contactNumber">--</div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">Email Address</div>
+                                <div class="info-value" id="email">--</div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">Home Address</div>
+                                <div class="info-value" id="address">--</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Government IDs -->
+                    <div class="info-card">
+                        <div class="info-header">
+                            <h3 class="info-title">Government IDs</h3>
+                        </div>
+                        
+                        <div class="info-grid">
+                            <div class="info-group">
+                                <div class="info-label">TIN</div>
+                                <div class="info-value" id="tinNumber">--</div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">SSS</div>
+                                <div class="info-value" id="sssNumber">--</div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">PhilHealth</div>
+                                <div class="info-value" id="philhealthNumber">--</div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">Pag-IBIG</div>
+                                <div class="info-value" id="pagibigNumber">--</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Emergency Contacts -->
+                    <div class="info-card">
+                        <div class="info-header">
+                            <h3 class="info-title">Emergency Contacts</h3>
+                            <button class="btn-edit">
+                                <i class="fas fa-pencil-alt"></i> Edit
+                            </button>
+                        </div>
+                        
+                        <div class="contacts-grid">
+                            <div class="contact-card">
+                                <div class="contact-name">--</div>
+                                <div class="contact-relation">--</div>
+                                <div class="contact-details">
+                                    <div><i class="fas fa-phone"></i> --</div>
+                                    <div><i class="fas fa-envelope"></i> --</div>
+                                    <div><i class="fas fa-map-marker-alt"></i> --</div>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-card">
+                                <div class="contact-name">--</div>
+                                <div class="contact-relation">--</div>
+                                <div class="contact-details">
+                                    <div><i class="fas fa-phone"></i> --</div>
+                                    <div><i class="fas fa-envelope"></i> --</div>
+                                    <div><i class="fas fa-map-marker-alt"></i> --</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+
+        // Upload photo button functionality
+        document.getElementById('uploadPhotoBtn').addEventListener('click', function() {
+            // In a real implementation, this would open a file dialog
+            alert('Photo upload functionality would be implemented here');
+        });
+
+        // Edit button functionality
+        document.querySelectorAll('.btn-edit').forEach(button => {
+            button.addEventListener('click', function() {
+                const section = this.closest('.info-card').querySelector('.info-title').textContent;
+                alert(`Edit functionality for ${section} would be implemented here`);
+            });
+        });
+    </script>
+</body>
+</html>
