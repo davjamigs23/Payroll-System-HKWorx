@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HKWorx - My Attendance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --primary-dark: #3a0ca3;
+            --secondary: #f72585;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --success: #4ad66d;
+            --warning: #f8961e;
+            --danger: #ef233c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 260px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-header img {
+            width: 40px;
+            margin-right: 10px;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.2rem;
+            color: var(--primary-dark);
+        }
+
+        .sidebar-menu {
+            padding: 1rem 0;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .menu-category {
+            color: var(--gray);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 1rem 1.5rem 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+
+        .menu-item.active {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+        }
+
+        .menu-item i {
+            width: 24px;
+            margin-right: 10px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-footer {
+            padding: 1rem;
+            border-top: 1px solid var(--light-gray);
+            text-align: center;
+        }
+
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 10;
+        }
+
+        .header-search {
+            position: relative;
+            width: 300px;
+        }
+
+        .header-search input {
+            width: 100%;
+            padding: 0.6rem 1rem 0.6rem 35px;
+            border: 1px solid var(--light-gray);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .header-search input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .header-search i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            margin-left: 1.5rem;
+        }
+
+        .user-profile img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        .user-profile .user-info {
+            line-height: 1.3;
+        }
+
+        .user-profile .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-profile .user-role {
+            font-size: 0.7rem;
+            color: var(--gray);
+        }
+
+        /* Attendance Content Styles */
+        .attendance-content {
+            padding: 2rem;
+            flex-grow: 1;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title h1 {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+
+        .page-title p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .page-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        /* Time Tracking Card */
+        .time-tracker {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .time-display {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+            color: var(--dark);
+        }
+
+        .time-status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .status-in {
+            background-color: rgba(74, 214, 109, 0.1);
+            color: var(--success);
+        }
+
+        .status-out {
+            background-color: rgba(239, 35, 60, 0.1);
+            color: var(--danger);
+        }
+
+        .status-break {
+            background-color: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+
+        .time-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* Attendance Summary */
+        .attendance-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .summary-title {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Attendance Table */
+        .attendance-table-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .attendance-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .attendance-table th {
+            background-color: var(--light);
+            text-align: left;
+            padding: 1rem;
+            font-weight: 600;
+            color: var(--dark);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        .attendance-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+            vertical-align: middle;
+        }
+
+        .attendance-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .attendance-table tr:hover {
+            background-color: rgba(67, 97, 238, 0.03);
+        }
+
+        .attendance-date {
+            font-weight: 500;
+        }
+
+        .attendance-status {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-present {
+            background-color: rgba(74, 214, 109, 0.1);
+            color: var(--success);
+        }
+
+        .status-absent {
+            background-color: rgba(239, 35, 60, 0.1);
+            color: var(--danger);
+        }
+
+        .status-late {
+            background-color: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+
+        .status-halfday {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+
+        /* Calendar Filter */
+        .calendar-filter {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .month-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .month-selector button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .month-display {
+            font-weight: 500;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .view-options {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .view-option {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .view-option.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                top: 0;
+                bottom: 0;
+                z-index: 1000;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .sidebar-toggle {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem;
+            }
+
+            .header-search {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            .user-profile {
+                margin-left: 0;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .page-actions {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+            }
+
+            .time-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .calendar-filter {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .month-selector {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Toggle Button (Mobile) -->
+    <div class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="https://via.placeholder.com/40x40?text=HK" alt="HKWorx Logo">
+            <h2>HKWorx Payroll</h2>
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="/Tentative Payroll System HKWorx/Employee/Dashboard Employee.html" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <div class="menu-category">Employee</div>
+            <a href="/Tentative Payroll System HKWorx/Employee/My Profile Employee.html" class="menu-item">
+                <i class="fas fa-user"></i>
+                <span>My Profile</span>
+            </a>
+            <a href="/Tentative Payroll System HKWorx/Employee/My Attendace Employee.html" class="menu-item active">
+                <i class="fas fa-clock"></i>
+                <span>My Attendance</span>
+            </a>
+            <a href="/Tentative Payroll System HKWorx/Employee/My Payslip Employee.html" class="menu-item">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>My Payslips</span>
+            </a>
+            <a href="/Tentative Payroll System HKWorx/Employee/My Schedule Employee.html" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>My Schedule</span>
+            </a>
+
+            <div class="menu-category">Projects</div>
+            <a href="/Tentative Payroll System HKWorx/Employee/My Projects Employee.html" class="menu-item">
+                <i class="fas fa-hard-hat"></i>
+                <span>My Projects</span>
+            </a>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <img src="https://via.placeholder.com/36x36" alt="User Profile">
+                <div class="user-info">
+                    <div class="user-name">Employee Name</div>
+                    <div class="user-role">Employee</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+
+            <div class="user-profile">
+                <img src="https://via.placeholder.com/36x36" alt="User Profile">
+                <div class="user-info">
+                    <div class="user-name">Employee Name</div>
+                    <div class="user-role">Employee</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance Content -->
+        <div class="attendance-content">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>My Attendance</h1>
+                    <p>Track your work hours and attendance records</p>
+                </div>
+                <div class="page-actions">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-download"></i>
+                        Export Records
+                    </button>
+                </div>
+            </div>
+
+            <!-- Time Tracker -->
+            <div class="time-tracker">
+                <div class="time-display" id="currentTime">--:--:--</div>
+                <div class="time-status status-out" id="attendanceStatus">CLOCKED OUT</div>
+                <div class="time-actions">
+                    <button class="btn btn-primary" id="clockInBtn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Clock In
+                    </button>
+                    <button class="btn btn-outline" id="clockOutBtn" disabled>
+                        <i class="fas fa-sign-out-alt"></i>
+                        Clock Out
+                    </button>
+                    <button class="btn btn-outline" id="breakBtn" disabled>
+                        <i class="fas fa-coffee"></i>
+                        Take Break
+                    </button>
+                </div>
+            </div>
+
+            <!-- Attendance Summary -->
+            <div class="attendance-summary">
+                <div class="summary-card">
+                    <div class="summary-title">Days Worked</div>
+                    <div class="summary-value" id="daysWorked">0</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-title">Total Hours</div>
+                    <div class="summary-value" id="totalHours">0</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-title">Late Arrivals</div>
+                    <div class="summary-value" id="lateArrivals">0</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-title">Overtime Hours</div>
+                    <div class="summary-value" id="overtimeHours">0</div>
+                </div>
+            </div>
+
+            <!-- Calendar Filter -->
+            <div class="calendar-filter">
+                <div class="month-selector">
+                    <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                    <div class="month-display" id="currentMonth">June 2023</div>
+                    <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="view-options">
+                    <div class="view-option active">Daily</div>
+                    <div class="view-option">Weekly</div>
+                    <div class="view-option">Monthly</div>
+                </div>
+            </div>
+
+            <!-- Attendance Table -->
+            <div class="attendance-table-container">
+                <div class="table-responsive">
+                    <table class="attendance-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Day</th>
+                                <th>Clock In</th>
+                                <th>Clock Out</th>
+                                <th>Total Hours</th>
+                                <th>Status</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceData">
+                            <!-- Data will be populated dynamically -->
+                            <tr>
+                                <td colspan="7" style="text-align: center;">No attendance records found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+
+        // Update current time
+        function updateCurrentTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('currentTime').textContent = timeString;
+        }
+        
+        // Initialize time display
+        updateCurrentTime();
+        setInterval(updateCurrentTime, 1000);
+
+        // Clock in/out functionality
+        let isClockedIn = false;
+        document.getElementById('clockInBtn').addEventListener('click', function() {
+            isClockedIn = true;
+            document.getElementById('attendanceStatus').className = 'time-status status-in';
+            document.getElementById('attendanceStatus').textContent = 'CLOCKED IN';
+            document.getElementById('clockInBtn').disabled = true;
+            document.getElementById('clockOutBtn').disabled = false;
+            document.getElementById('breakBtn').disabled = false;
+            
+            // In a real app, you would send this to your backend
+            // fetch('/api/attendance/clock-in', { method: 'POST' })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         loadAttendanceData();
+            //     });
+        });
+
+        document.getElementById('clockOutBtn').addEventListener('click', function() {
+            isClockedIn = false;
+            document.getElementById('attendanceStatus').className = 'time-status status-out';
+            document.getElementById('attendanceStatus').textContent = 'CLOCKED OUT';
+            document.getElementById('clockInBtn').disabled = false;
+            document.getElementById('clockOutBtn').disabled = true;
+            document.getElementById('breakBtn').disabled = true;
+            
+            // In a real app, you would send this to your backend
+            // fetch('/api/attendance/clock-out', { method: 'POST' })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         loadAttendanceData();
+            //     });
+        });
+
+        document.getElementById('breakBtn').addEventListener('click', function() {
+            document.getElementById('attendanceStatus').className = 'time-status status-break';
+            document.getElementById('attendanceStatus').textContent = 'ON BREAK';
+            
+            // In a real app, you would send this to your backend
+            // fetch('/api/attendance/break', { method: 'POST' })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         // Handle response
+            //     });
+        });
+
+        // Month navigation
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"];
+
+        function updateMonthDisplay() {
+            document.getElementById('currentMonth').textContent = 
+                `${monthNames[currentMonth]} ${currentYear}`;
+            loadAttendanceData();
+        }
+
+        document.getElementById('prevMonth').addEventListener('click', function() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            updateMonthDisplay();
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', function() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            updateMonthDisplay();
+        });
+
+        // View options
+        const viewOptions = document.querySelectorAll('.view-option');
+        viewOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                viewOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                loadAttendanceData();
+            });
+        });
+
+        // Function to load attendance data (to be implemented with your API)
+        function loadAttendanceData() {
+            // This is where you would fetch data from your backend
+            // Example:
+            /*
+            const viewType = document.querySelector('.view-option.active').textContent;
+            fetch(`/api/attendance?month=${currentMonth+1}&year=${currentYear}&view=${viewType}`)
+                .then(response => response.json())
+                .then(data => {
+                    populateAttendanceTable(data);
+                    updateSummary(data.summary);
+                });
+            */
+            
+            // For now, we'll just clear the table
+            const tableBody = document.getElementById('attendanceData');
+            tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No attendance records found</td></tr>';
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateMonthDisplay();
+        });
+    </script>
+</body>
+</html>
