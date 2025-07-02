@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HKWorx - Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .settings-container {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .settings-sidebar {
+            width: 250px;
+            flex-shrink: 0;
+        }
+        
+        .settings-content {
+            flex-grow: 1;
+        }
+        
+        .settings-menu {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+        
+        .settings-menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--dark);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .settings-menu-item:hover {
+            background-color: var(--light);
+        }
+        
+        .settings-menu-item.active {
+            background-color: var(--primary-light);
+            border-left-color: var(--primary);
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .settings-menu-item i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .settings-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+        
+        .settings-section h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .avatar-upload {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .avatar-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--light);
+        }
+        
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .upload-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .settings-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        
+        .tab-btn {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gray);
+            transition: all 0.2s;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .permissions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .permission-card {
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 15px;
+        }
+        
+        .permission-card h4 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .permission-option {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Toggle Button (Mobile) -->
+    <div class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="Admin Logo.jpg" alt="HKWorx Logo">
+            <h2>HKWorx</h2>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-category">Main</div>
+            <a href="Dashboard Admin.html" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            
+            <div class="menu-category">Management</div>
+            <a href="Employees.html" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Employees</span>
+            </a>
+            <a href="Attendance Admin.html" class="menu-item">
+                <i class="fas fa-clock"></i>
+                <span>Attendance</span>
+            </a>
+            <a href="User Roles.html" class="menu-item">
+                <i class="fas fa-user-tag"></i>
+                <span>User Roles</span>
+            </a>
+            <a href="Pay Rates.html" class="menu-item">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>Pay Rates</span>
+            </a>
+            
+            <div class="menu-category">Reports</div>
+            <a href="Payroll Reports.html" class="menu-item">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>Payroll Reports</span>
+            </a>
+            <a href="Attendance Reports.html" class="menu-item">
+                <i class="fas fa-calendar-check"></i>
+                <span>Attendance Reports</span>
+            </a>
+            
+            <div class="menu-category">Settings</div>
+            <a href="Settings.html" class="menu-item active">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="header-actions">
+                <div class="notification-bell">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <div class="user-profile">
+                    <img src="Admin Logo.jpg" alt="User" class="avatar">
+                    <div class="user-info">
+                        <div class="user-name">Admin User</div>
+                        <div class="user-role">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <div class="dashboard-content">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>Settings</h1>
+                    <p>Manage your account and system settings</p>
+                </div>
+            </div>
+            
+            <div class="settings-container">
+                <!-- Settings Sidebar -->
+                <div class="settings-sidebar">
+                    <div class="settings-menu">
+                        <a href="#profile" class="settings-menu-item active" data-tab="profile">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                        <a href="#security" class="settings-menu-item" data-tab="security">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Security</span>
+                        </a>
+                        <a href="#notifications" class="settings-menu-item" data-tab="notifications">
+                            <i class="fas fa-bell"></i>
+                            <span>Notifications</span>
+                        </a>
+                        <a href="#company" class="settings-menu-item" data-tab="company">
+                            <i class="fas fa-building"></i>
+                            <span>Company</span>
+                        </a>
+                        <a href="#payroll" class="settings-menu-item" data-tab="payroll">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>Payroll</span>
+                        </a>
+                        <a href="#attendance" class="settings-menu-item" data-tab="attendance">
+                            <i class="fas fa-clock"></i>
+                            <span>Attendance</span>
+                        </a>
+                        <a href="#integrations" class="settings-menu-item" data-tab="integrations">
+                            <i class="fas fa-plug"></i>
+                            <span>Integrations</span>
+                        </a>
+                        <a href="#backup" class="settings-menu-item" data-tab="backup">
+                            <i class="fas fa-database"></i>
+                            <span>Backup & Restore</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Settings Content -->
+                <div class="settings-content">
+                    <!-- Profile Tab -->
+                    <div id="profile" class="tab-content active">
+                        <div class="settings-section">
+                            <h3>Profile Information</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" id="firstName" class="form-control" value="John">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" id="lastName" class="form-control" value="Doe">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" class="form-control" value="john.doe@example.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" class="form-control" value="+1 (555) 123-4567">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Profile Photo</label>
+                                <div class="avatar-upload">
+                                    <div class="avatar-preview">
+                                        <img src="Admin Logo.jpg" alt="Profile">
+                                    </div>
+                                    <div class="upload-actions">
+                                        <button class="btn btn-sm btn-primary">
+                                            <i class="fas fa-upload"></i> Upload New Photo
+                                        </button>
+                                        <button class="btn btn-sm btn-outline">
+                                            <i class="fas fa-trash"></i> Remove
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button class="btn btn-outline">Cancel</button>
+                                <button class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Security Tab -->
+                    <div id="security" class="tab-content">
+                        <div class="settings-section">
+                            <h3>Change Password</h3>
+                            <div class="form-group">
+                                <label for="currentPassword">Current Password</label>
+                                <input type="password" id="currentPassword" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" id="newPassword" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm New Password</label>
+                                <input type="password" id="confirmPassword" class="form-control">
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn btn-primary">Update Password</button>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <h3>Two-Factor Authentication</h3>
+                            <p>Add an extra layer of security to your account by enabling two-factor authentication.</p>
+                            <div class="form-actions">
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-mobile-alt"></i> Set Up 2FA
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Other tabs would be implemented similarly -->
+                    <div id="notifications" class="tab-content">
+                        <div class="settings-section">
+                            <h3>Notification Preferences</h3>
+                            <p>Configure how you receive notifications.</p>
+                            <!-- Notification settings would go here -->
+                        </div>
+                    </div>
+                    
+                    <div id="company" class="tab-content">
+                        <div class="settings-section">
+                            <h3>Company Information</h3>
+                            <p>Manage your company details and settings.</p>
+                            <!-- Company settings would go here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+        
+        // Tab functionality
+        document.querySelectorAll('.settings-menu-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all menu items and tab contents
+                document.querySelectorAll('.settings-menu-item').forEach(i => i.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+                
+                // Add active class to clicked menu item
+                this.classList.add('active');
+                
+                // Show corresponding tab content
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

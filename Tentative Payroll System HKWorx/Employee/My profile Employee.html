@@ -112,24 +112,6 @@
             text-align: center;
         }
 
-        .sidebar-toggle {
-            display: none;
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            background: var(--primary);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
         /* Main Content Styles */
         .main-content {
             flex-grow: 1;
@@ -424,18 +406,18 @@
         @media (max-width: 992px) {
             .sidebar {
                 position: fixed;
-                left: -260px;
-                top: 0;
-                bottom: 0;
-                z-index: 1000;
-            }
-
-            .sidebar.active {
                 left: 0;
+                top: 0;
+                height: 100vh;
+                z-index: 1200;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
             }
-
-            .sidebar-toggle {
-                display: flex;
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0 !important;
             }
         }
 
@@ -458,57 +440,40 @@
     </style>
 </head>
 <body>
-    <!-- Sidebar Toggle Button (Mobile) -->
-    <div class="sidebar-toggle" id="sidebarToggle">
-        <i class="fas fa-bars"></i>
-    </div>
-
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <img src="https://via.placeholder.com/40x40?text=HK" alt="HKWorx Logo">
+            <img src="/Tentative Payroll System HKWorx/Images/Employee Logo.png" alt="HKWorx Logo">
             <h2>HKWorx Payroll</h2>
         </div>
 
         <div class="sidebar-menu">
-            <a href="/Tentative Payroll System HKWorx/Employee/Dashboard Employee.html" class="menu-item">
+            <a href="Dashboard Employee.html" class="menu-item">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
-
             <div class="menu-category">Employee</div>
-            <a href="/Tentative Payroll System HKWorx/Employee/My Profile Employee.html" class="menu-item active">
+            <a href="My profile Employee.html" class="menu-item active">
                 <i class="fas fa-user"></i>
                 <span>My Profile</span>
             </a>
-            <a href="/Tentative Payroll System HKWorx/Employee/My Attendance Employee.html" class="menu-item">
+            <a href="My Attendance Employee.html" class="menu-item">
                 <i class="fas fa-clock"></i>
                 <span>My Attendance</span>
             </a>
-            <a href="/Tentative Payroll System HKWorx/Employee/My Payslip Employee.html" class="menu-item">
+            <a href="My Payslip Employee.html" class="menu-item">
                 <i class="fas fa-file-invoice-dollar"></i>
                 <span>My Payslips</span>
             </a>
-            <a href="/Tentative Payroll System HKWorx/Employee/My Schedule Employee.html" class="menu-item">
+            <a href="My Schedule Employee.html" class="menu-item">
                 <i class="fas fa-calendar-alt"></i>
                 <span>My Schedule</span>
             </a>
-
             <div class="menu-category">Projects</div>
-            <a href="/Tentative Payroll System HKWorx/Employee/My Projects Employee.html" class="menu-item">
+            <a href="My Projects Employee.html" class="menu-item">
                 <i class="fas fa-hard-hat"></i>
                 <span>My Projects</span>
             </a>
-        </div>
-
-        <div class="sidebar-footer">
-            <div class="user-profile">
-                <img src="https://via.placeholder.com/36x36" alt="User Profile">
-                <div class="user-info">
-                    <div class="user-name">Employee Name</div>
-                    <div class="user-role">Employee</div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -522,7 +487,7 @@
             </div>
 
             <div class="user-profile">
-                <img src="https://via.placeholder.com/36x36" alt="User Profile">
+                <img src="/Tentative Payroll System HKWorx/Images/Employee Logo.png" alt="User Profile">
                 <div class="user-info">
                     <div class="user-name">Employee Name</div>
                     <div class="user-role">Employee</div>
@@ -542,9 +507,9 @@
             <div class="profile-layout">
                 <!-- Profile Card -->
                 <div class="profile-card">
-                    <img src="https://via.placeholder.com/150x150" class="profile-avatar" id="profileAvatar">
-                    <h2 class="profile-name" id="employeeName">Employee Name</h2>
-                    <div class="profile-position" id="employeePosition">Position</div>
+                    <img src="/Tentative Payroll System HKWorx/Images/Employee Logo.png" class="profile-avatar" id="profileAvatar">
+                    <h2 class="profile-name" id="employeeName">Alex Cruz</h2>
+                    <div class="profile-position" id="employeePosition">Site Engineer</div>
                     
                     <button class="btn-upload" id="uploadPhotoBtn">
                         <i class="fas fa-camera"></i> Upload Photo
@@ -553,19 +518,19 @@
                     <div class="profile-details">
                         <div class="detail-item">
                             <div class="detail-label">Employee ID</div>
-                            <div class="detail-value" id="employeeId">--</div>
+                            <div class="detail-value" id="employeeId">EMP-1024</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Date Hired</div>
-                            <div class="detail-value" id="dateHired">--</div>
+                            <div class="detail-value" id="dateHired">March 14, 2022</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Department</div>
-                            <div class="detail-value" id="department">--</div>
+                            <div class="detail-value" id="department">Engineering</div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Project</div>
-                            <div class="detail-value" id="currentProject">--</div>
+                            <div class="detail-value" id="currentProject">Skyline Tower Renovation</div>
                         </div>
                     </div>
                 </div>
@@ -584,35 +549,35 @@
                         <div class="info-grid">
                             <div class="info-group">
                                 <div class="info-label">Full Name</div>
-                                <div class="info-value" id="fullName">--</div>
+                                <div class="info-value" id="fullName">Alex Cruz</div>
                             </div>
                             <div class="info-group">
                                 <div class="info-label">Date of Birth</div>
-                                <div class="info-value" id="birthDate">--</div>
+                                <div class="info-value" id="birthDate">August 3, 1993</div>
                             </div>
                             <div class="info-group">
                                 <div class="info-label">Gender</div>
-                                <div class="info-value" id="gender">--</div>
+                                <div class="info-value" id="gender">Male</div>
                             </div>
                             <div class="info-group">
                                 <div class="info-label">Marital Status</div>
-                                <div class="info-value" id="maritalStatus">--</div>
+                                <div class="info-value" id="maritalStatus">Single</div>
                             </div>
                             <div class="info-group">
                                 <div class="info-label">Nationality</div>
-                                <div class="info-value" id="nationality">--</div>
+                                <div class="info-value" id="nationality">Filipino</div>
                             </div>
                             <div class="info-group">
                                 <div class="info-label">Contact Number</div>
-                                <div class="info-value" id="contactNumber">--</div>
+                                <div class="info-value" id="contactNumber">+63 917 555 1234</div>
                             </div>
                             <div class="info-group">
                                 <div class="info-label">Email Address</div>
-                                <div class="info-value" id="email">--</div>
+                                <div class="info-value" id="email">alex.cruz@hkworx.com</div>
                             </div>
                             <div class="info-group">
                                 <div class="info-label">Home Address</div>
-                                <div class="info-value" id="address">--</div>
+                                <div class="info-value" id="address">Blk 12 Lot 8, Sunrise Subd., Quezon City, Metro Manila</div>
                             </div>
                         </div>
                     </div>
@@ -626,19 +591,19 @@
                         <div class="info-grid">
                             <div class="info-group">
                                 <div class="info-label">TIN</div>
-                                <div class="info-value" id="tinNumber">--</div>
+                                <div class="info-value" id="tinNumber">123-456-789</div>
                             </div>
                             <div class="info-group">
                                 <div class="info-label">SSS</div>
-                                <div class="info-value" id="sssNumber">--</div>
+                                <div class="info-value" id="sssNumber">34-5678901-2</div>
                             </div>
                             <div class="info-group">
                                 <div class="info-label">PhilHealth</div>
-                                <div class="info-value" id="philhealthNumber">--</div>
+                                <div class="info-value" id="philhealthNumber">12-345678901-2</div>
                             </div>
                             <div class="info-group">
                                 <div class="info-label">Pag-IBIG</div>
-                                <div class="info-value" id="pagibigNumber">--</div>
+                                <div class="info-value" id="pagibigNumber">1234-5678-9012</div>
                             </div>
                         </div>
                     </div>
@@ -654,22 +619,22 @@
                         
                         <div class="contacts-grid">
                             <div class="contact-card">
-                                <div class="contact-name">--</div>
-                                <div class="contact-relation">--</div>
+                                <div class="contact-name">Rafael Cruz</div>
+                                <div class="contact-relation">Brother</div>
                                 <div class="contact-details">
-                                    <div><i class="fas fa-phone"></i> --</div>
-                                    <div><i class="fas fa-envelope"></i> --</div>
-                                    <div><i class="fas fa-map-marker-alt"></i> --</div>
+                                    <div><i class="fas fa-phone"></i> +63 917 222 3333</div>
+                                    <div><i class="fas fa-envelope"></i> rafael.cruz@email.com</div>
+                                    <div><i class="fas fa-map-marker-alt"></i> Mandaluyong City</div>
                                 </div>
                             </div>
                             
                             <div class="contact-card">
-                                <div class="contact-name">--</div>
-                                <div class="contact-relation">--</div>
+                                <div class="contact-name">Rafael Cruz</div>
+                                <div class="contact-relation">Brother</div>
                                 <div class="contact-details">
-                                    <div><i class="fas fa-phone"></i> --</div>
-                                    <div><i class="fas fa-envelope"></i> --</div>
-                                    <div><i class="fas fa-map-marker-alt"></i> --</div>
+                                    <div><i class="fas fa-phone"></i> +63 917 222 3333</div>
+                                    <div><i class="fas fa-envelope"></i> rafael.cruz@email.com</div>
+                                    <div><i class="fas fa-map-marker-alt"></i> Mandaluyong City</div>
                                 </div>
                             </div>
                         </div>
@@ -680,11 +645,6 @@
     </div>
 
     <script>
-        // Toggle sidebar on mobile
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('active');
-        });
-
         // Upload photo button functionality
         document.getElementById('uploadPhotoBtn').addEventListener('click', function() {
             // In a real implementation, this would open a file dialog

@@ -31,16 +31,9 @@
             100% { transform: translateY(0px); }
         }
         
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
         body {
             background: linear-gradient(-45deg, #4361ee, #3a0ca3, #7209b7, #f72585);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background-size: cover;
             color: white;
             min-height: 100vh;
             display: flex;
@@ -230,10 +223,13 @@
         }
         
         .tab.active {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
-        }
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 5px 25px 0 rgba(67, 97, 238, 0.6), 0 0 12px 2px var(--accent);
+    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+    outline: none;
+    filter: brightness(1.15);
+}
         
         .tab-content {
             display: none;
@@ -488,13 +484,10 @@
         </div>
         
         <div class="welcome-section">
-            <div class="logo">
-                <img src="https://via.placeholder.com/50x50?text=HK" alt="HKWorx Logo">
-                <h1>HKWorx</h1>
-            </div>
+            
             
             <div class="welcome-content">
-                <h2>Construction Payroll Made Simple</h2>
+                <h2>HKWorx Payroll</h2>
                 <p>Streamline your workforce management with our powerful payroll solution designed specifically for construction businesses.</p>
             </div>
             
@@ -536,17 +529,14 @@
         <div class="auth-forms">
             <div class="form-container">
                 <div class="form-header">
-                    <h2>Welcome Back!</h2>
-                    <p>Sign in to access your payroll dashboard</p>
-                </div>
+    <h2>Welcome Back!</h2>
+    <p>Sign in to access your payroll dashboard</p>
+</div>
                 
-                <div class="tabs">
-                    <div class="tab active" onclick="switchTab('login')">Sign In</div>
-                    <div class="tab" onclick="switchTab('signup')">Sign Up</div>
-                </div>
+                
                 
                 <!-- Login Form -->
-                <div id="login-form" class="tab-content active">
+                <div id="login-form" class="auth-form-section" style="display:block;">
                     <div class="role-selector">
                         <div class="role-option active" onclick="selectRole('employee')">Employee</div>
                         <div class="role-option" onclick="selectRole('admin')">Admin</div>
@@ -579,17 +569,20 @@
                             <i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i> Sign In
                         </button>
                         
-                        <div class="divider">or continue with</div>
+                        <div class="switch-form">
+                            Don't have an account?
+                            <a href="Create Account.html">Create Account</a>
+                        </div>
                         
-                        <button type="button" class="btn btn-google">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo">
-                            Google
-                        </button>
+                        
+                        
+                        
+                        
                     </form>
                 </div>
                 
                 <!-- Signup Form -->
-                <div id="signup-form" class="tab-content">
+                <div id="signup-form" class="auth-form-section" style="display:none;">
                     <div class="role-selector">
                         <div class="role-option active" onclick="selectRole('employee')">Employee</div>
                         <div class="role-option" onclick="selectRole('admin')">Admin</div>
@@ -628,38 +621,33 @@
                             <div class="error-message">Password must be at least 8 characters</div>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="signup-confirm-password">Confirm Password</label>
-                            <div class="input-wrapper">
-                                <input type="password" id="signup-confirm-password" class="form-control" placeholder="••••••••" required>
-                                <i class="fas fa-lock input-icon"></i>
-                            </div>
-                            <div class="error-message">Passwords don't match</div>
-                        </div>
-                        
                         <div class="form-group" id="employee-id-group">
-                            <label for="signup-employee-id">Employee ID</label>
-                            <div class="input-wrapper">
-                                <input type="text" id="signup-employee-id" class="form-control" placeholder="HKW-1234">
-                                <i class="fas fa-id-badge input-icon"></i>
-                            </div>
-                        </div>
+    <label for="signup-employee-id">Employee ID</label>
+    <div class="input-wrapper">
+        <input type="text" id="signup-employee-id" class="form-control" placeholder="HKW-1234">
+        <i class="fas fa-id-badge input-icon"></i>
+    </div>
+</div>
+<div class="form-group" id="admin-verification-group" style="display:none;">
+    <label for="signup-admin-code">Admin Verification Code</label>
+    <div class="input-wrapper">
+        <input type="password" id="signup-admin-code" class="form-control" placeholder="Enter admin code">
+        <i class="fas fa-key input-icon"></i>
+    </div>
+    <div class="error-message">Verification code required for admin registration</div>
+</div>
                         
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-user-plus" style="margin-right: 8px;"></i> Create Account
                         </button>
                         
-                        <div class="divider">or continue with</div>
                         
-                        <button type="button" class="btn btn-google">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo">
-                            Google
-                        </button>
+                        
+                        
                         
                         <div class="switch-form">
-                            Already have an account? <a href="#
-                            " onclick="switchTab('login')">Sign In</a>
-                        </div>
+    Already have an account? <a href="#" onclick="showSignIn(event)">Sign In</a>
+</div>
                     </form>
                 </div>
             </div>
@@ -667,6 +655,50 @@
     </div>
 
     <script>
+// Show only Sign In or Sign Up form
+function showSignIn(e) {
+    if(e) e.preventDefault();
+    document.getElementById('login-form').style.display = 'block';
+    document.getElementById('signup-form').style.display = 'none';
+}
+function showSignUp(e) {
+    if(e) e.preventDefault();
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('signup-form').style.display = 'block';
+}
+// Ensure Sign In is default on page load
+window.addEventListener('DOMContentLoaded', function() {
+    showSignIn();
+});
+// Show/hide Admin Verification Code field in Sign Up form
+function toggleAdminVerificationField() {
+    const roleOptions = document.querySelectorAll('#signup-form .role-option');
+    const adminField = document.getElementById('admin-verification-group');
+    let adminActive = false;
+    roleOptions.forEach(opt => {
+        if (opt.classList.contains('active') && opt.textContent.trim().toLowerCase() === 'admin') {
+            adminActive = true;
+        }
+    });
+    if (adminActive) {
+        adminField.style.display = '';
+        adminField.querySelector('input').setAttribute('required', 'required');
+    } else {
+        adminField.style.display = 'none';
+        adminField.querySelector('input').removeAttribute('required');
+    }
+}
+// Attach to role selector
+if (document.getElementById('signup-form')) {
+    document.querySelectorAll('#signup-form .role-option').forEach(opt => {
+        opt.addEventListener('click', toggleAdminVerificationField);
+    });
+}
+// On page load, correct field visibility
+window.addEventListener('DOMContentLoaded', function() {
+    toggleAdminVerificationField();
+});
+
         // Tab switching functionality
         function switchTab(tabName) {
             // Hide all tab contents
@@ -734,7 +766,7 @@
             
             // Validate password
             const password = document.getElementById('login-password');
-            if (password.value.length < 6) {
+            if (password.value.length < 8) {
                 password.parentElement.classList.add('error');
                 isValid = false;
             } else {
@@ -753,12 +785,43 @@
                     alert('Login successful! Redirecting to dashboard...');
                     submitBtn.innerHTML = '<i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i> Sign In';
                     submitBtn.disabled = false;
-                    // window.location.href = role === 'admin' ? "admin-dashboard.html" : "employee-dashboard.html";
+                    const role = document.querySelector('.role-option.active').textContent.trim().toLowerCase();
+                    if (role === 'admin') {
+    window.location.href = 'Admin/Dashboard Admin.html';
+} else if (role === 'employee') {
+    window.location.href = 'Employee/Dashboard Employee.html';
+} else {
+    // fallback: stay on page or show error
+    alert('Unknown role selected.');
+}
                 }, 1500);
             }
         });
         
         document.getElementById('signupForm').addEventListener('submit', function(e) {
+    // Custom admin code validation
+    const roleOptions = document.querySelectorAll('#signup-form .role-option');
+    let isAdmin = false;
+    roleOptions.forEach(opt => {
+        if (opt.classList.contains('active') && opt.textContent.trim().toLowerCase() === 'admin') {
+            isAdmin = true;
+        }
+    });
+    if (isAdmin) {
+        const adminCodeInput = document.getElementById('signup-admin-code');
+        const adminCodeError = adminCodeInput.parentElement.parentElement.querySelector('.error-message');
+        if (adminCodeInput.value !== 'HKWORX2025') {
+            adminCodeInput.parentElement.classList.add('error');
+            adminCodeError.textContent = 'Invalid verification code for admin registration';
+            adminCodeError.style.display = 'block';
+            e.preventDefault();
+            return;
+        } else {
+            adminCodeInput.parentElement.classList.remove('error');
+            adminCodeError.style.display = 'none';
+        }
+    }
+
             e.preventDefault();
             let isValid = true;
             
@@ -788,15 +851,6 @@
                 isValid = false;
             } else {
                 password.parentElement.classList.remove('error');
-            }
-            
-            // Validate confirm password
-            const confirmPassword = document.getElementById('signup-confirm-password');
-            if (confirmPassword.value !== password.value) {
-                confirmPassword.parentElement.classList.add('error');
-                isValid = false;
-            } else {
-                confirmPassword.parentElement.classList.remove('error');
             }
             
             if (isValid) {

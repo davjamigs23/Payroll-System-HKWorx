@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - HKWorx Payroll Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a0ca3;
+            --secondary: #f72585;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4ad66d;
+            --warning: #f8961e;
+            --danger: #ef233c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        body {
+            background: linear-gradient(-45deg, #4361ee, #3a0ca3, #7209b7, #f72585);
+            background-attachment: fixed;
+            background-size: 400% 400%;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            animation: gradient 15s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .auth-container {
+            width: 90%;
+            max-width: 1200px;
+            min-height: 700px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .shape:nth-child(1) {
+            width: 150px;
+            height: 150px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+        
+        .shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            bottom: 15%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+        
+        .shape:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            top: 50%;
+            left: 30%;
+            animation-delay: 4s;
+        }
+        
+        .welcome-section {
+            flex: 1;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, white, #f8f9fa);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .welcome-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .welcome-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .features {
+            margin-top: 2rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-icon {
+            margin-right: 1rem;
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+        
+        .form-section {
+            flex: 1;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.8s ease-out 0.2s;
+            animation-fill-mode: both;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .form-header h2 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-header p {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+        
+        .role-selector {
+            display: flex;
+            background: rgba(67, 97, 238, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .role-option {
+            flex: 1;
+            text-align: center;
+            padding: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .role-option.active {
+            background: var(--primary);
+            color: white;
+            filter: brightness(1.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 45px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.1);
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .switch-form {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .switch-form a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+        
+        .error-message {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+        
+        .success-message {
+            background: rgba(74, 214, 109, 0.18);
+            color: var(--success);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 1.2rem;
+            display: none;
+        }
+        
+        .form-group.error .form-control {
+            border-color: var(--danger);
+        }
+        
+        .form-group.error .error-message {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        
+        <div class="welcome-section">
+            
+            <div class="welcome-content">
+                <h2>Welcome to<br>HKWorx Payroll</h2>
+                <p>Create your account to access employee management, payroll processing, and project tracking.</p>
+            </div>
+            
+            <div class="features">
+                <div class="feature-item">
+                    <i class="fas fa-check-circle feature-icon"></i>
+                    <span>Secure employee management</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check-circle feature-icon"></i>
+                    <span>Automated payroll processing</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check-circle feature-icon"></i>
+                    <span>Real-time project tracking</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <div class="form-header">
+                <h2>Create Account</h2>
+                <p>Register to access your dashboard</p>
+            </div>
+            <form id="signupForm" autocomplete="off">
+                <div class="role-selector">
+                    <div class="role-option active" onclick="selectRole('employee')">Employee</div>
+                    <div class="role-option" onclick="selectRole('admin')">Admin</div>
+                </div>
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="signup-name" class="form-control" placeholder="Enter your name" required>
+                        <i class="fas fa-user input-icon"></i>
+                    </div>
+                    <div class="error-message">Name is required</div>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email Address</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="signup-email" class="form-control" placeholder="Enter your email" required>
+                        <i class="fas fa-envelope input-icon"></i>
+                    </div>
+                    <div class="error-message">Valid email is required</div>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="signup-password" class="form-control" placeholder="Create a password" required minlength="8">
+                        <i class="fas fa-lock input-icon"></i>
+                    </div>
+                    <div class="error-message">Password must be at least 8 characters</div>
+                </div>
+                
+                <div class="form-group" id="employee-id-group">
+                    <label for="signup-employee-id">Employee ID</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="signup-employee-id" class="form-control" placeholder="HKW-1234">
+                        <i class="fas fa-id-badge input-icon"></i>
+                    </div>
+                </div>
+                <div class="form-group" id="admin-verification-group" style="display:none;">
+                    <label for="signup-admin-code">Admin Verification Code</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="signup-admin-code" class="form-control" placeholder="Enter admin code">
+                        <i class="fas fa-key input-icon"></i>
+                    </div>
+                    <div class="error-message">Verification code required for admin registration</div>
+                </div>
+                <button type="submit" class="btn">
+                    <i class="fas fa-user-plus" style="margin-right: 8px;"></i> Create Account
+                </button>
+                <div class="switch-form">
+                    Already have an account?
+                    <a href="Sign In.html">Sign In</a>
+                </div>
+                <div class="success-message">Account created successfully!</div>
+            </form>
+        </div>
+    </div>
+    <script>
+        function selectRole(role) {
+            const roleOptions = document.querySelectorAll('.role-option');
+            roleOptions.forEach(opt => {
+                if (opt.textContent.trim().toLowerCase() === role) {
+                    opt.classList.add('active');
+                } else {
+                    opt.classList.remove('active');
+                }
+            });
+            // Show/hide fields based on role
+            if (role === 'employee') {
+                document.getElementById('employee-id-group').style.display = '';
+                document.getElementById('admin-verification-group').style.display = 'none';
+                document.getElementById('signup-admin-code').removeAttribute('required');
+            } else {
+                document.getElementById('employee-id-group').style.display = 'none';
+                document.getElementById('admin-verification-group').style.display = '';
+                document.getElementById('signup-admin-code').setAttribute('required', 'required');
+            }
+        }
+        document.querySelectorAll('.role-option').forEach(opt => {
+            opt.addEventListener('click', function() {
+                selectRole(this.textContent.trim().toLowerCase());
+            });
+        });
+        // Custom admin code validation
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let isValid = true;
+            // Validate name
+            const name = document.getElementById('signup-name');
+            if (!name.value.trim()) {
+                name.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                name.parentElement.classList.remove('error');
+            }
+            // Validate email
+            const email = document.getElementById('signup-email');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value)) {
+                email.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                email.parentElement.classList.remove('error');
+            }
+            // Validate password
+            const password = document.getElementById('signup-password');
+            if (password.value.length < 8) {
+                password.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                password.parentElement.classList.remove('error');
+            }
+            
+            // Validate admin code if role is admin
+            const adminRoleActive = document.querySelector('.role-option.active').textContent.trim().toLowerCase() === 'admin';
+            if (adminRoleActive) {
+                const adminCodeInput = document.getElementById('signup-admin-code');
+                const adminCodeError = adminCodeInput.parentElement.parentElement.querySelector('.error-message');
+                if (adminCodeInput.value !== 'HKWORX2025') {
+                    adminCodeInput.parentElement.classList.add('error');
+                    adminCodeError.textContent = 'Invalid verification code for admin registration';
+                    adminCodeError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    adminCodeInput.parentElement.classList.remove('error');
+                    adminCodeError.style.display = 'none';
+                }
+            }
+            if (isValid) {
+                // Show loading state
+                const submitBtn = this.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> Creating Account...';
+                submitBtn.disabled = true;
+                setTimeout(() => {
+                    document.querySelector('.success-message').style.display = 'block';
+                    this.reset();
+                    submitBtn.innerHTML = '<i class="fas fa-user-plus" style="margin-right: 8px;"></i> Create Account';
+                    submitBtn.disabled = false;
+                    setTimeout(() => {
+                        document.querySelector('.success-message').style.display = 'none';
+                    }, 4000);
+                }, 1200);
+            }
+        });
+        // Default to employee role on load
+        window.addEventListener('DOMContentLoaded', function() {
+            selectRole('employee');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HKWorx - Pay Rates</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .pay-rate-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background-color: rgba(74, 214, 109, 0.1);
+            color: #2ecc71;
+        }
+        
+        .status-inactive {
+            background-color: rgba(255, 71, 87, 0.1);
+            color: #ff4757;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Toggle Button (Mobile) -->
+    <div class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="Admin Logo.jpg" alt="HKWorx Logo">
+            <h2>HKWorx</h2>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-category">Main</div>
+            <a href="Dashboard Admin.html" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            
+            <div class="menu-category">Management</div>
+            <a href="Employees.html" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Employees</span>
+            </a>
+            <a href="Attendance Admin.html" class="menu-item">
+                <i class="fas fa-clock"></i>
+                <span>Attendance</span>
+            </a>
+            <a href="User Roles.html" class="menu-item">
+                <i class="fas fa-user-tag"></i>
+                <span>User Roles</span>
+            </a>
+            <a href="Pay Rates.html" class="menu-item active">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>Pay Rates</span>
+            </a>
+            
+            <div class="menu-category">Reports</div>
+            <a href="Payroll Reports.html" class="menu-item">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>Payroll Reports</span>
+            </a>
+            <a href="Attendance Reports.html" class="menu-item">
+                <i class="fas fa-calendar-check"></i>
+                <span>Attendance Reports</span>
+            </a>
+            
+            <div class="menu-category">Settings</div>
+            <a href="Settings.html" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="header-actions">
+                <div class="notification-bell">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <div class="user-profile">
+                    <img src="Admin Logo.jpg" alt="User" class="avatar">
+                    <div class="user-info">
+                        <div class="user-name">Admin User</div>
+                        <div class="user-role">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <div class="dashboard-content">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>Pay Rates</h1>
+                    <p>Manage employee pay rates and compensation</p>
+                </div>
+                <button class="btn btn-primary" id="addPayRate">
+                    <i class="fas fa-plus"></i> Add Pay Rate
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Pay Rate List</div>
+                    <div class="card-actions">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search pay rates...">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Position</th>
+                                <th>Rate Type</th>
+                                <th>Rate</th>
+                                <th>Overtime Rate</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Software Engineer</td>
+                                <td>Monthly</td>
+                                <td>$5,000.00</td>
+                                <td>1.5x</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td class="pay-rate-actions">
+                                    <button class="btn btn-sm btn-outline">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-sm btn-outline">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Project Manager</td>
+                                <td>Monthly</td>
+                                <td>$7,500.00</td>
+                                <td>1.5x</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td class="pay-rate-actions">
+                                    <button class="btn btn-sm btn-outline">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-sm btn-outline">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>HR Manager</td>
+                                <td>Monthly</td>
+                                <td>$6,000.00</td>
+                                <td>1.25x</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td class="pay-rate-actions">
+                                    <button class="btn btn-sm btn-outline">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-sm btn-outline">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <div class="pagination">
+                        <button class="btn btn-outline btn-sm">Previous</button>
+                        <button class="btn btn-primary btn-sm">1</button>
+                        <button class="btn btn-outline btn-sm">2</button>
+                        <button class="btn btn-outline btn-sm">3</button>
+                        <button class="btn btn-outline btn-sm">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+
+        // Add Pay Rate button click handler
+        document.getElementById('addPayRate').addEventListener('click', function() {
+            // In a real app, this would open a modal to add a new pay rate
+            alert('Add new pay rate functionality would open here');
+        });
+    </script>
+</body>
+</html>
