@@ -634,15 +634,12 @@
     </style>
 </head>
 <body>
-    <!-- Sidebar Toggle Button (Mobile) -->
-    <div class="sidebar-toggle" id="sidebarToggle">
-        <i class="fas fa-bars"></i>
-    </div>
+
 
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <img src="Admin Logo.jpg" alt="HKWorx Logo">
+            <img src="../Images/Human.png" alt="HKWorx Logo">
             <h2>HKWorx Payroll</h2>
         </div>
 
@@ -665,24 +662,6 @@
                 <i class="fas fa-file-invoice-dollar"></i>
                 <span>Payroll</span>
             </a>
-            <a href="Time Tracking.html" class="menu-item">
-                <i class="fas fa-clock"></i>
-                <span>Time Tracking</span>
-            </a>
-
-            <div class="menu-category">Configuration</div>
-            <a href="Settings.html" class="menu-item">
-                <i class="fas fa-cog"></i>
-                <span>Settings</span>
-            </a>
-            <a href="User Roles.html" class="menu-item">
-                <i class="fas fa-user-shield"></i>
-                <span>User Roles</span>
-            </a>
-            <a href="Pay Rates.html" class="menu-item">
-                <i class="fas fa-money-bill-wave"></i>
-                <span>Pay Rates</span>
-            </a>
 
             <div class="menu-category">Reports</div>
             <a href="Payroll Reports.html" class="menu-item">
@@ -693,16 +672,6 @@
                 <i class="fas fa-chart-pie"></i>
                 <span>Attendance Reports</span>
             </a>
-        </div>
-
-        <div class="sidebar-footer">
-            <div class="user-profile">
-                <img src="/Tentative Payroll System HKWorx/Images/Admin Logo.jpg" alt="Admin Profile">
-                <div class="user-info">
-                    <div class="user-name">Admin User</div>
-                    <div class="user-role">Administrator</div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -912,11 +881,6 @@
     </div>
 
     <script>
-        // Toggle sidebar on mobile
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('active');
-        });
-
         // Initialize empty state
         document.addEventListener('DOMContentLoaded', function() {
             // Empty state initialization

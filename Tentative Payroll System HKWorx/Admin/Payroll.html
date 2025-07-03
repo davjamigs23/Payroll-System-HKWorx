@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HKWorx - Payroll Reports</title>
+    <title>HKWorx - Payroll Computation</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Same CSS as Dashboard Admin.html */
@@ -47,13 +47,13 @@
                 <i class="fas fa-clock"></i>
                 <span>Attendance</span>
             </a>
-            <a href="Payroll.html" class="menu-item">
+            <a href="Payroll.html" class="menu-item active">
                 <i class="fas fa-file-invoice-dollar"></i>
                 <span>Payroll</span>
             </a>
 
             <div class="menu-category">Reports</div>
-            <a href="Payroll Reports.html" class="menu-item active">
+            <a href="Payroll Reports.html" class="menu-item">
                 <i class="fas fa-chart-bar"></i>
                 <span>Payroll Reports</span>
             </a>
@@ -70,7 +70,7 @@
         <div class="header">
             <div class="header-search">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search reports...">
+                <input type="text" placeholder="Search payroll...">
             </div>
             <div class="user-profile">
                 <img src="Admin Logo.jpg" alt="User Profile">
@@ -81,119 +81,120 @@
             </div>
         </div>
 
-        <!-- Reports Content -->
+        <!-- Payroll Content -->
         <div class="dashboard-content">
             <div class="page-header">
                 <div class="page-title">
-                    <h1>Payroll Reports</h1>
-                    <p>View and analyze payroll data</p>
+                    <h1>Payroll Computation</h1>
+                    <p>Calculate and process employee payroll</p>
                 </div>
                 <div class="page-actions">
-                    <div class="form-group">
-                        <select id="reportType">
-                            <option>Monthly Payroll Summary</option>
-                            <option>Employee Earnings</option>
-                            <option>Tax Deductions</option>
-                            <option>Department-wise Breakdown</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary">
+                    <button class="btn btn-primary" id="processPayroll">
+                        <i class="fas fa-calculator"></i>
+                        Process Payroll
+                    </button>
+                    <button class="btn btn-outline">
                         <i class="fas fa-download"></i>
                         Export
                     </button>
                 </div>
             </div>
 
-            <!-- Report Filters -->
+            <!-- Payroll Period Selector -->
             <div class="card">
                 <div class="card-header">
-                    <h3>Report Filters</h3>
+                    <h3>Payroll Period</h3>
                 </div>
                 <div class="card-body">
                     <div class="form-row">
                         <div class="form-group">
                             <label>Start Date</label>
-                            <input type="date" id="reportStart">
+                            <input type="date" id="payrollStart">
                         </div>
                         <div class="form-group">
                             <label>End Date</label>
-                            <input type="date" id="reportEnd">
+                            <input type="date" id="payrollEnd">
                         </div>
                         <div class="form-group">
-                            <label>Department</label>
-                            <select id="departmentFilter">
-                                <option value="">All Departments</option>
-                                <option>IT</option>
-                                <option>HR</option>
-                                <option>Finance</option>
-                            </select>
+                            <label>Pay Date</label>
+                            <input type="date" id="payDate">
                         </div>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-filter"></i>
-                            Apply Filters
+                        <button class="btn btn-primary" id="loadPayrollData">
+                            <i class="fas fa-sync-alt"></i>
+                            Load Data
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Charts Section -->
-            <div class="card">
-                <div class="card-header">
-                    <h3>Monthly Payroll Summary</h3>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container">
-                        <canvas id="payrollChart"></canvas>
+            <!-- Payroll Summary -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Total Employees</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
                     </div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-header">
+                        <div class="stat-title">Total Gross Pay</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">₱0.00</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-header">
+                        <div class="stat-title">Total Deductions</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-minus-circle"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">₱0.00</div>
+                </div>
+                <div class="stat-card secondary">
+                    <div class="stat-header">
+                        <div class="stat-title">Total Net Pay</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">₱0.00</div>
                 </div>
             </div>
 
-            <!-- Data Table -->
+            <!-- Payroll Table -->
             <div class="card">
-                <div class="card-header">
-                    <h3>Report Data</h3>
-                </div>
-                <div class="card-body">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Period</th>
-                                <th>Employees</th>
-                                <th>Gross Pay</th>
-                                <th>Taxes</th>
-                                <th>Deductions</th>
-                                <th>Net Pay</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>June 2025</td>
-                                <td>24</td>
-                                <td>₱342,560.00</td>
-                                <td>₱34,256.00</td>
-                                <td>₱12,589.00</td>
-                                <td>₱295,715.00</td>
-                            </tr>
-                            <tr>
-                                <td>May 2025</td>
-                                <td>24</td>
-                                <td>₱342,560.00</td>
-                                <td>₱34,256.00</td>
-                                <td>₱12,589.00</td>
-                                <td>₱295,715.00</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Days Worked</th>
+                            <th>Overtime</th>
+                            <th>Daily Rate</th>
+                            <th>Gross Pay</th>
+                            <th>Deductions</th>
+                            <th>Net Pay</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Payroll data would be dynamically added -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
     <script>
-        // Chart.js initialization would go here
-        document.addEventListener('DOMContentLoaded', function() {
-            // This would be replaced with actual chart initialization
-            console.log('Payroll report charts would be initialized here');
+        // Payroll computation scripts would go here
+        document.getElementById('processPayroll').addEventListener('click', function() {
+            // Formula: (Days Worked * Daily Rate) + (Overtime * Daily Rate * 0.25) - Deductions
+            alert('Payroll processing functionality would be implemented here');
         });
     </script>
 </body>

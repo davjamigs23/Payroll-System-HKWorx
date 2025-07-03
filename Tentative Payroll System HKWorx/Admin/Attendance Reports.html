@@ -5,108 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HKWorx - Attendance Reports</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../css/style.css">
     <style>
-        .report-filters {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+        /* Same CSS as Dashboard Admin.html */
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --primary-dark: #3a0ca3;
+            --secondary: #f72585;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --success: #4ad66d;
+            --warning: #f8961e;
+            --danger: #ef233c;
         }
-        
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            min-width: 200px;
-        }
-        
-        .filter-group label {
-            margin-bottom: 5px;
-            font-weight: 500;
-            color: var(--dark);
-        }
-        
-        .report-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 15px;
-            box-shadow: var(--box-shadow);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: white;
-        }
-        
-        .stat-info h3 {
-            margin: 0;
-            font-size: 1.2rem;
-            color: var(--dark);
-        }
-        
-        .stat-info p {
-            margin: 5px 0 0;
-            color: var(--gray);
-            font-size: 0.85rem;
-        }
-        
-        .attendance-status {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-        
-        .present { background-color: rgba(46, 204, 113, 0.1); color: #2ecc71; }
-        .late { background-color: rgba(241, 196, 15, 0.1); color: #f1c40f; }
-        .absent { background-color: rgba(255, 71, 87, 0.1); color: #ff4757; }
-        .on-leave { background-color: rgba(52, 152, 219, 0.1); color: #3498db; }
+        /* ... include all other CSS rules from Dashboard ... */
     </style>
 </head>
 <body>
-    <!-- Sidebar Toggle Button (Mobile) -->
-    <div class="sidebar-toggle" id="sidebarToggle">
-        <i class="fas fa-bars"></i>
-    </div>
-
-    <!-- Sidebar -->
+    <!-- Sidebar (same as Dashboard) -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <img src="Admin Logo.jpg" alt="HKWorx Logo">
-            <h2>HKWorx</h2>
+            <img src="../Images/Human.png" alt="HKWorx Logo">
+            <h2>HKWorx Payroll</h2>
         </div>
+
         <div class="sidebar-menu">
-            <div class="menu-category">Main</div>
             <a href="Dashboard Admin.html" class="menu-item">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
-            
+
             <div class="menu-category">Management</div>
-            <a href="Employees.html" class="menu-item">
+            <a href="Employee Admin.html" class="menu-item">
                 <i class="fas fa-users"></i>
                 <span>Employees</span>
             </a>
@@ -114,254 +47,207 @@
                 <i class="fas fa-clock"></i>
                 <span>Attendance</span>
             </a>
-            <a href="User Roles.html" class="menu-item">
-                <i class="fas fa-user-tag"></i>
-                <span>User Roles</span>
+            <a href="Payroll.html" class="menu-item">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>Payroll</span>
             </a>
-            <a href="Pay Rates.html" class="menu-item">
-                <i class="fas fa-money-bill-wave"></i>
-                <span>Pay Rates</span>
-            </a>
-            
+
             <div class="menu-category">Reports</div>
             <a href="Payroll Reports.html" class="menu-item">
-                <i class="fas fa-file-invoice-dollar"></i>
+                <i class="fas fa-chart-bar"></i>
                 <span>Payroll Reports</span>
             </a>
             <a href="Attendance Reports.html" class="menu-item active">
-                <i class="fas fa-calendar-check"></i>
+                <i class="fas fa-chart-pie"></i>
                 <span>Attendance Reports</span>
-            </a>
-            
-            <div class="menu-category">Settings</div>
-            <a href="Settings.html" class="menu-item">
-                <i class="fas fa-cog"></i>
-                <span>Settings</span>
             </a>
         </div>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Header -->
+        <!-- Header (same as Dashboard) -->
         <div class="header">
             <div class="header-search">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search...">
+                <input type="text" placeholder="Search reports...">
             </div>
-            <div class="header-actions">
-                <div class="notification-bell">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge">3</span>
-                </div>
-                <div class="user-profile">
-                    <img src="Admin Logo.jpg" alt="User" class="avatar">
-                    <div class="user-info">
-                        <div class="user-name">Admin User</div>
-                        <div class="user-role">Administrator</div>
-                    </div>
+            <div class="user-profile">
+                <img src="Admin Logo.jpg" alt="User Profile">
+                <div class="user-info">
+                    <div class="user-name">Admin</div>
+                    <div class="user-role">Administrator</div>
                 </div>
             </div>
         </div>
 
-        <!-- Page Content -->
+        <!-- Reports Content -->
         <div class="dashboard-content">
             <div class="page-header">
                 <div class="page-title">
                     <h1>Attendance Reports</h1>
-                    <p>Track and analyze employee attendance data</p>
+                    <p>Analyze employee attendance patterns</p>
                 </div>
-                <button class="btn btn-primary" id="exportReport">
-                    <i class="fas fa-file-export"></i> Export Report
-                </button>
+                <div class="page-actions">
+                    <div class="form-group">
+                        <select id="attendanceReportType">
+                            <option>Daily Attendance</option>
+                            <option>Monthly Summary</option>
+                            <option>Tardiness Analysis</option>
+                            <option>Department Comparison</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-download"></i>
+                        Export
+                    </button>
+                </div>
             </div>
 
+            <!-- Report Filters -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Report Filters</div>
+                    <h3>Report Filters</h3>
                 </div>
                 <div class="card-body">
-                    <div class="report-filters">
-                        <div class="filter-group">
-                            <label for="reportType">Report Type</label>
-                            <select id="reportType" class="form-control">
-                                <option>Daily Attendance</option>
-                                <option>Weekly Summary</option>
-                                <option>Monthly Summary</option>
-                                <option>Employee Attendance History</option>
-                            </select>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Date Range</label>
+                            <input type="date" id="attendanceStart">
+                            <span>to</span>
+                            <input type="date" id="attendanceEnd">
                         </div>
-                        
-                        <div class="filter-group">
-                            <label for="dateRange">Date Range</label>
-                            <select id="dateRange" class="form-control">
-                                <option>Today</option>
-                                <option>Yesterday</option>
-                                <option>This Week</option>
-                                <option>Last Week</option>
-                                <option>This Month</option>
-                                <option>Custom Range</option>
-                            </select>
-                        </div>
-                        
-                        <div class="filter-group">
-                            <label for="department">Department</label>
-                            <select id="department" class="form-control">
-                                <option>All Departments</option>
-                                <option>Development</option>
-                                <option>Human Resources</option>
+                        <div class="form-group">
+                            <label>Department</label>
+                            <select id="attendanceDepartment">
+                                <option value="">All Departments</option>
+                                <option>IT</option>
+                                <option>HR</option>
                                 <option>Finance</option>
-                                <option>Operations</option>
                             </select>
                         </div>
-                        
-                        <div class="filter-group">
-                            <label for="employee">Employee</label>
-                            <select id="employee" class="form-control">
-                                <option>All Employees</option>
-                                <option>John Doe</option>
-                                <option>Jane Smith</option>
-                                <option>Robert Johnson</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="report-actions">
                         <button class="btn btn-primary">
-                            <i class="fas fa-search"></i> Generate Report
-                        </button>
-                        <button class="btn btn-outline">
-                            <i class="fas fa-sync-alt"></i> Reset Filters
+                            <i class="fas fa-filter"></i>
+                            Apply Filters
                         </button>
                     </div>
                 </div>
             </div>
-            
+
+            <!-- Attendance Stats -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-icon" style="background-color: #2ecc71;">
-                        <i class="fas fa-user-check"></i>
+                    <div class="stat-header">
+                        <div class="stat-title">Total Employees</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
                     </div>
-                    <div class="stat-info">
-                        <h3>87%</h3>
-                        <p>Present Today</p>
-                    </div>
+                    <div class="stat-value">24</div>
                 </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: #f1c40f;">
-                        <i class="fas fa-clock"></i>
+                <div class="stat-card success">
+                    <div class="stat-header">
+                        <div class="stat-title">Present Today</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
                     </div>
-                    <div class="stat-info">
-                        <h3>12</h3>
-                        <p>Late Arrivals</p>
-                    </div>
+                    <div class="stat-value">22</div>
                 </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: #e74c3c;">
-                        <i class="fas fa-user-times"></i>
+                <div class="stat-card warning">
+                    <div class="stat-header">
+                        <div class="stat-title">Late Today</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
                     </div>
-                    <div class="stat-info">
-                        <h3>8</h3>
-                        <p>Absent Today</p>
-                    </div>
+                    <div class="stat-value">3</div>
                 </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: #3498db;">
-                        <i class="fas fa-umbrella-beach"></i>
+                <div class="stat-card danger">
+                    <div class="stat-header">
+                        <div class="stat-title">Absent Today</div>
+                        <div class="stat-icon">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
                     </div>
-                    <div class="stat-info">
-                        <h3>5</h3>
-                        <p>On Leave</p>
+                    <div class="stat-value">2</div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Attendance Trends</h3>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="attendanceChart"></canvas>
                     </div>
                 </div>
             </div>
-            
+
+            <!-- Data Table -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Attendance Summary</div>
-                    <div class="card-actions">
-                        <button class="btn btn-sm btn-outline">
-                            <i class="fas fa-print"></i> Print
-                        </button>
-                        <button class="btn btn-sm btn-outline">
-                            <i class="fas fa-download"></i> Download
-                        </button>
-                    </div>
+                    <h3>Attendance Records</h3>
                 </div>
                 <div class="card-body">
-                    <div style="overflow-x: auto;">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Employee ID</th>
-                                    <th>Name</th>
-                                    <th>Date</th>
-                                    <th>Check In</th>
-                                    <th>Check Out</th>
-                                    <th>Total Hours</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>EMP-001</td>
-                                    <td>John Doe</td>
-                                    <td>2023-06-15</td>
-                                    <td>08:45 AM</td>
-                                    <td>05:30 PM</td>
-                                    <td>8.75</td>
-                                    <td><span class="attendance-status late">Late</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline">
-                                            <i class="fas fa-eye"></i> View
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>EMP-002</td>
-                                    <td>Jane Smith</td>
-                                    <td>2023-06-15</td>
-                                    <td>08:15 AM</td>
-                                    <td>05:45 PM</td>
-                                    <td>9.50</td>
-                                    <td><span class="attendance-status present">Present</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline">
-                                            <i class="fas fa-eye"></i> View
-                                        </button>
-                                    </td>
-                                </tr>
-                                <!-- More rows would be dynamically generated -->
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <div class="pagination" style="margin-top: 20px;">
-                        <button class="btn btn-outline btn-sm">Previous</button>
-                        <button class="btn btn-primary btn-sm">1</button>
-                        <button class="btn btn-outline btn-sm">2</button>
-                        <button class="btn btn-outline btn-sm">3</button>
-                        <button class="btn btn-outline btn-sm">Next</button>
-                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Date</th>
+                                <th>Time In</th>
+                                <th>Time Out</th>
+                                <th>Status</th>
+                                <th>Hours Worked</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="employee-info">
+                                        <img src="../Images/avatar1.jpg" alt="Employee">
+                                        <div>
+                                            <div class="employee-name">John Smith</div>
+                                            <div class="employee-email">john@example.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>2025-07-03</td>
+                                <td>08:05 AM</td>
+                                <td>05:15 PM</td>
+                                <td><span class="badge badge-warning">Late</span></td>
+                                <td>8.5</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="employee-info">
+                                        <img src="../Images/avatar2.jpg" alt="Employee">
+                                        <div>
+                                            <div class="employee-name">Jane Doe</div>
+                                            <div class="employee-email">jane@example.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>2025-07-03</td>
+                                <td>08:00 AM</td>
+                                <td>05:00 PM</td>
+                                <td><span class="badge badge-success">Present</span></td>
+                                <td>9.0</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Toggle sidebar on mobile
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('active');
-        });
-
-        // Export Report button click handler
-        document.getElementById('exportReport').addEventListener('click', function() {
-            // In a real app, this would generate and download a report
-            alert('Export functionality would run here');
+        // Chart.js initialization would go here
+        document.addEventListener('DOMContentLoaded', function() {
+            // This would be replaced with actual chart initialization
+            console.log('Attendance report charts would be initialized here');
         });
     </script>
 </body>

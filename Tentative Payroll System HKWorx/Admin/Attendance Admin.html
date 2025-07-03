@@ -112,24 +112,6 @@
             text-align: center;
         }
 
-        .sidebar-toggle {
-            display: none;
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            background: var(--primary);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
         /* Main Content Styles */
         .main-content {
             flex-grow: 1;
@@ -466,10 +448,6 @@
             .sidebar.active {
                 left: 0;
             }
-
-            .sidebar-toggle {
-                display: flex;
-            }
         }
 
         @media (max-width: 768px) {
@@ -510,11 +488,6 @@
     </style>
 </head>
 <body>
-    <!-- Sidebar Toggle Button (Mobile) -->
-    <div class="sidebar-toggle" id="sidebarToggle">
-        <i class="fas fa-bars"></i>
-    </div>
-
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -523,39 +496,33 @@
         </div>
 
         <div class="sidebar-menu">
-            <a href="/Tentative Payroll System HKWorx/Admin/dashboard.html" class="menu-item">
+            <a href="Dashboard Admin.html" class="menu-item">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
 
             <div class="menu-category">Management</div>
-            <a href="/Tentative Payroll System HKWorx/Admin/employees.html" class="menu-item">
+            <a href="Employee Admin.html" class="menu-item">
                 <i class="fas fa-users"></i>
                 <span>Employees</span>
             </a>
-            <a href="/Tentative Payroll System HKWorx/Admin/attendance.html" class="menu-item active">
+            <a href="Attendance Admin.html" class="menu-item active">
                 <i class="fas fa-clock"></i>
                 <span>Attendance</span>
             </a>
-            <a href="/Tentative Payroll System HKWorx/Admin/payroll.html" class="menu-item">
-                <i class="fas fa-calculator"></i>
+            <a href="Payroll Reports.html" class="menu-item">
+                <i class="fas fa-file-invoice-dollar"></i>
                 <span>Payroll</span>
             </a>
 
-            <div class="menu-category">Projects</div>
-            <a href="projects.html" class="menu-item">
-                <i class="fas fa-project-diagram"></i>
-                <span>Projects</span>
-            </a>
-            <a href="workforce.html" class="menu-item">
-                <i class="fas fa-hard-hat"></i>
-                <span>Workforce</span>
-            </a>
-
             <div class="menu-category">Reports</div>
-            <a href="analytics.html" class="menu-item">
+            <a href="Payroll Reports.html" class="menu-item">
                 <i class="fas fa-chart-bar"></i>
-                <span>Analytics</span>
+                <span>Payroll Reports</span>
+            </a>
+            <a href="Attendance Reports.html" class="menu-item">
+                <i class="fas fa-chart-pie"></i>
+                <span>Attendance Reports</span>
             </a>
         </div>
 
@@ -691,48 +658,9 @@
     </div>
 
     <script>
-        // Toggle sidebar on mobile
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('active');
-        });
+        // Load and display attendance data
+        loadAttendanceData();
 
-        // Initialize date inputs with today's date
-        document.addEventListener('DOMContentLoaded', function() {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('startDate').value = today;
-            document.getElementById('endDate').value = today;
-            
-            // Load departments (in a real app, you would fetch from API)
-            // fetch('/api/departments')
-            //     .then(response => response.json())
-            //     .then(data => {
-            //         const select = document.getElementById('departmentFilter');
-            //         data.forEach(dept => {
-            //             const option = document.createElement('option');
-            //             option.value = dept.id;
-            //             option.textContent = dept.name;
-            //             select.appendChild(option);
-            //         });
-            //     });
-            
-            loadAttendanceData();
-        });
-
-        // Filter functionality
-        document.getElementById('applyFilters').addEventListener('click', function() {
-            loadAttendanceData();
-        });
-
-        document.getElementById('resetFilters').addEventListener('click', function() {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('startDate').value = today;
-            document.getElementById('endDate').value = today;
-            document.getElementById('departmentFilter').value = '';
-            document.getElementById('statusFilter').value = '';
-            loadAttendanceData();
-        });
-
-        // Load attendance data
         function loadAttendanceData() {
             const startDate = document.getElementById('startDate').value;
             const endDate = document.getElementById('endDate').value;
@@ -760,7 +688,6 @@
             document.getElementById('lateToday').textContent = '0';
         }
 
-        // Function to display attendance data
         function displayAttendanceData(records) {
             const tableBody = document.getElementById('attendanceData');
             
@@ -805,7 +732,6 @@
             });
         }
 
-        // Function to update summary
         function updateSummary(summary) {
             document.getElementById('totalEmployees').textContent = summary.totalEmployees;
             document.getElementById('presentToday').textContent = summary.presentToday;
