@@ -489,65 +489,11 @@
                     <h1>Payroll Reports</h1>
                     <p>View and analyze payroll data</p>
                 </div>
-                <div class="page-actions">
-                    <div class="form-group">
-                        <select id="reportType">
-                            <option>Monthly Payroll Summary</option>
-                            <option>Employee Earnings</option>
-                            <option>Tax Deductions</option>
-                            <option>Department-wise Breakdown</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary">
-                        <i class="fas fa-download"></i>
-                        Export
-                    </button>
-                </div>
+
             </div>
 
-            <!-- Report Filters -->
-            <div class="card">
-                <div class="card-header">
-                    <h3>Report Filters</h3>
-                </div>
-                <div class="card-body">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Start Date</label>
-                            <input type="date" id="reportStart">
-                        </div>
-                        <div class="form-group">
-                            <label>End Date</label>
-                            <input type="date" id="reportEnd">
-                        </div>
-                        <div class="form-group">
-                            <label>Department</label>
-                            <select id="departmentFilter">
-                                <option value="">All Departments</option>
-                                <option>IT</option>
-                                <option>HR</option>
-                                <option>Finance</option>
-                            </select>
-                        </div>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-filter"></i>
-                            Apply Filters
-                        </button>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Charts Section -->
-            <div class="card">
-                <div class="card-header">
-                    <h3>Monthly Payroll Summary</h3>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container">
-                        <canvas id="payrollChart"></canvas>
-                    </div>
-                </div>
-            </div>
+
 
             <!-- Data Table -->
             <div class="card">
@@ -575,12 +521,6 @@
         </div>
     </div>
 
-    <script>
-        // Chart.js initialization would go here
-        document.addEventListener('DOMContentLoaded', function() {
-            // This would be replaced with actual chart initialization
-            console.log('Payroll report charts would be initialized here');
-        });
-    </script>
+
 </body>
 </html>

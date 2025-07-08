@@ -246,16 +246,25 @@
         }
         
         .form-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+#verification-group {
+    margin-top: 1.2rem;
+}
         
         .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--dark);
-        }
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--dark);
+}
+#verification-group .error-message {
+    color: var(--danger);
+    font-size: 0.97rem;
+    margin-top: 0.4rem;
+    display: none;
+}
         
         .input-wrapper {
             position: relative;
@@ -488,37 +497,35 @@
             
             <div class="welcome-content">
                 <h2>HKWorx Payroll</h2>
-                <p>Streamline your workforce management with our powerful payroll solution designed specifically for construction businesses.</p>
+                <p>Simplify employee management, attendance tracking, and payroll processing for your business.</p>
             </div>
-            
+
             <div class="features">
                 <div class="feature-item">
                     <div class="feature-icon">
-                        <i class="fas fa-hard-hat"></i>
+                        <i class="fas fa-users"></i>
                     </div>
                     <div class="feature-text">
-                        <h4>Project-Based Tracking</h4>
-                        <p>Easily assign workers to multiple projects</p>
+                        <h4>Employee Management</h4>
+                        <p>Easily add, update, and manage employee records in one place.</p>
                     </div>
                 </div>
-                
                 <div class="feature-item">
                     <div class="feature-icon">
-                        <i class="fas fa-clock"></i>
+                        <i class="fas fa-calendar-check"></i>
                     </div>
                     <div class="feature-text">
-                        <h4>Real-Time Attendance</h4>
-                        <p>Automated time tracking with overtime calculation</p>
+                        <h4>Attendance Tracking</h4>
+                        <p>Record and review employee attendance with clear summaries.</p>
                     </div>
                 </div>
-                
                 <div class="feature-item">
                     <div class="feature-icon">
-                        <i class="fas fa-file-invoice-dollar"></i>
+                        <i class="fas fa-calculator"></i>
                     </div>
                     <div class="feature-text">
-                        <h4>Automated Payroll</h4>
-                        <p>Precise calculations with customizable deductions</p>
+                        <h4>Payroll Processing</h4>
+                        <p>Generate accurate payroll based on attendance and employee details.</p>
                     </div>
                 </div>
             </div>
@@ -561,6 +568,15 @@
                             <div class="error-message">Password must be at least 6 characters</div>
                         </div>
                         
+                        <div class="form-group" id="verification-group" style="display:none;">
+                            <label for="login-verification">Verification Code</label>
+                            <div class="input-wrapper">
+                                <input type="password" id="login-verification" class="form-control" placeholder="Enter admin code">
+                                <i class="fas fa-key input-icon"></i>
+                            </div>
+                            <div class="error-message">Verification code is required for Admin.</div>
+                        </div>
+                        
                         <div class="forgot-password">
                             <a href="#">Forgot password?</a>
                         </div>
@@ -568,86 +584,6 @@
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i> Sign In
                         </button>
-                        
-                        <div class="switch-form">
-                            Don't have an account?
-                            <a href="Create Account.html">Create Account</a>
-                        </div>
-                        
-                        
-                        
-                        
-                        
-                    </form>
-                </div>
-                
-                <!-- Signup Form -->
-                <div id="signup-form" class="auth-form-section" style="display:none;">
-                    <div class="role-selector">
-                        <div class="role-option active" onclick="selectRole('employee')">Employee</div>
-                        <div class="role-option" onclick="selectRole('admin')">Admin</div>
-                    </div>
-                    
-                    <form id="signupForm">
-                        <div class="success-message">
-                            <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
-                            Registration successful! Please check your email for verification.
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="signup-name">Full Name</label>
-                            <div class="input-wrapper">
-                                <input type="text" id="signup-name" class="form-control" placeholder="John Doe" required>
-                                <i class="fas fa-user input-icon"></i>
-                            </div>
-                            <div class="error-message">Please enter your full name</div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="signup-email">Email Address</label>
-                            <div class="input-wrapper">
-                                <input type="email" id="signup-email" class="form-control" placeholder="your@email.com" required>
-                                <i class="fas fa-envelope input-icon"></i>
-                            </div>
-                            <div class="error-message">Please enter a valid email address</div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="signup-password">Password</label>
-                            <div class="input-wrapper">
-                                <input type="password" id="signup-password" class="form-control" placeholder="••••••••" required>
-                                <i class="fas fa-lock input-icon"></i>
-                            </div>
-                            <div class="error-message">Password must be at least 8 characters</div>
-                        </div>
-                        
-                        <div class="form-group" id="employee-id-group">
-    <label for="signup-employee-id">Employee ID</label>
-    <div class="input-wrapper">
-        <input type="text" id="signup-employee-id" class="form-control" placeholder="HKW-1234">
-        <i class="fas fa-id-badge input-icon"></i>
-    </div>
-</div>
-<div class="form-group" id="admin-verification-group" style="display:none;">
-    <label for="signup-admin-code">Admin Verification Code</label>
-    <div class="input-wrapper">
-        <input type="password" id="signup-admin-code" class="form-control" placeholder="Enter admin code">
-        <i class="fas fa-key input-icon"></i>
-    </div>
-    <div class="error-message">Verification code required for admin registration</div>
-</div>
-                        
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-user-plus" style="margin-right: 8px;"></i> Create Account
-                        </button>
-                        
-                        
-                        
-                        
-                        
-                        <div class="switch-form">
-    Already have an account? <a href="#" onclick="showSignIn(event)">Sign In</a>
-</div>
                     </form>
                 </div>
             </div>

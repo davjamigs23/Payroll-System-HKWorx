@@ -589,30 +589,7 @@
                     <p>Track your work hours and attendance records</p>
                 </div>
                 <div class="page-actions">
-                    <button class="btn btn-outline">
-                        <i class="fas fa-download"></i>
-                        Export Records
-                    </button>
-                </div>
-            </div>
 
-            <!-- Time Tracker -->
-            <div class="time-tracker">
-                <div class="time-display" id="currentTime">--:--:--</div>
-                <div class="time-status status-out" id="attendanceStatus">CLOCKED OUT</div>
-                <div class="time-actions">
-                    <button class="btn btn-primary" id="clockInBtn">
-                        <i class="fas fa-sign-in-alt"></i>
-                        Clock In
-                    </button>
-                    <button class="btn btn-outline" id="clockOutBtn" disabled>
-                        <i class="fas fa-sign-out-alt"></i>
-                        Clock Out
-                    </button>
-                    <button class="btn btn-outline" id="breakBtn" disabled>
-                        <i class="fas fa-coffee"></i>
-                        Take Break
-                    </button>
                 </div>
             </div>
 
@@ -620,33 +597,19 @@
             <div class="attendance-summary">
                 <div class="summary-card">
                     <div class="summary-title">Days Worked</div>
-                    <div class="summary-value" id="daysWorked">22</div>
+                    <div class="summary-value" id="daysWorked"></div>
                 </div>
                 <div class="summary-card">
                     <div class="summary-title">Total Hours</div>
-                    <div class="summary-value" id="totalHours">176</div>
+                    <div class="summary-value" id="totalHours"></div>
                 </div>
                 <div class="summary-card">
                     <div class="summary-title">Late Arrivals</div>
-                    <div class="summary-value" id="lateArrivals">2</div>
+                    <div class="summary-value" id="lateArrivals"></div>
                 </div>
                 <div class="summary-card">
                     <div class="summary-title">Overtime Hours</div>
-                    <div class="summary-value" id="overtimeHours">12</div>
-                </div>
-            </div>
-
-            <!-- Calendar Filter -->
-            <div class="calendar-filter">
-                <div class="month-selector">
-                    <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
-                    <div class="month-display" id="currentMonth">June 2023</div>
-                    <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
-                </div>
-                <div class="view-options">
-                    <div class="view-option active">Daily</div>
-                    <div class="view-option">Weekly</div>
-                    <div class="view-option">Monthly</div>
+                    <div class="summary-value" id="overtimeHours"></div>
                 </div>
             </div>
 
@@ -666,51 +629,7 @@
                             </tr>
                         </thead>
                         <tbody id="attendanceData">
-                            <tr>
-                                <td>2025-07-01</td>
-                                <td>Tuesday</td>
-                                <td>08:01</td>
-                                <td>17:02</td>
-                                <td>9.0</td>
-                                <td>Present</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>2025-07-02</td>
-                                <td>Wednesday</td>
-                                <td>08:05</td>
-                                <td>17:00</td>
-                                <td>8.9</td>
-                                <td>Late</td>
-                                <td>Traffic</td>
-                            </tr>
-                            <tr>
-                                <td>2025-07-03</td>
-                                <td>Thursday</td>
-                                <td>08:00</td>
-                                <td>17:10</td>
-                                <td>9.2</td>
-                                <td>Present</td>
-                                <td>Overtime</td>
-                            </tr>
-                            <tr>
-                                <td>2025-07-04</td>
-                                <td>Friday</td>
-                                <td>08:03</td>
-                                <td>17:00</td>
-                                <td>8.9</td>
-                                <td>Late</td>
-                                <td>Personal</td>
-                            </tr>
-                            <tr>
-                                <td>2025-07-05</td>
-                                <td>Saturday</td>
-                                <td>08:00</td>
-                                <td>16:30</td>
-                                <td>8.5</td>
-                                <td>Present</td>
-                                <td>-</td>
-                            </tr>
+                            <!-- Attendance data will be inserted here by user input -->
                         </tbody>
                     </table>
                 </div>
