@@ -364,42 +364,132 @@
             border-radius: 5px;
         }
 
-        /* Emergency Contacts */
-        .contacts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+        /* Government IDs specific styling */
+        .info-value[data-field] {
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .govt-id-input {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .govt-id-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        /* Enhanced Emergency Contacts Styling */
+        .contacts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
         }
 
         .contact-card {
-            background: var(--light);
-            border-radius: 8px;
+            background: white;
+            border-radius: 10px;
             padding: 1.5rem;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+            position: relative;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-card.primary {
+            border-left-color: var(--success);
+        }
+
+        .contact-card .contact-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary-light);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .contact-card.primary .contact-badge {
+            background: var(--success);
         }
 
         .contact-name {
+            font-size: 1.1rem;
             font-weight: 600;
+            color: var(--dark);
             margin-bottom: 0.5rem;
         }
 
         .contact-relation {
-            color: var(--gray);
-            font-size: 0.9rem;
+            color: var(--primary);
+            font-size: 0.85rem;
             margin-bottom: 1rem;
         }
 
         .contact-details div {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             display: flex;
             align-items: center;
         }
 
         .contact-details i {
-            margin-right: 8px;
-            color: var(--primary);
             width: 20px;
-            text-align: center;
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .contact-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .contact-form {
+            padding: 1rem;
+        }
+
+        .contact-form .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .contact-form .form-control {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .contact-form .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .contact-form .is-invalid {
+            border-color: var(--danger);
+        }
+
+        .contact-form .invalid-feedback {
+            color: var(--danger);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
         }
 
         /* Responsive Styles */
@@ -436,6 +526,63 @@
             .profile-content {
                 padding: 1rem;
             }
+        }
+
+        /* Photo Upload Styles */
+        .profile-photo-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-photo-wrapper {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            border: 3px solid var(--primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-photo-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.5rem;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .profile-photo-wrapper:hover .upload-overlay {
+            opacity: 1;
+        }
+
+        .btn-upload {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+
+        .btn-upload:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -507,32 +654,19 @@
             <div class="profile-layout">
                 <!-- Profile Card -->
                 <div class="profile-card">
-                    <img src="/Tentative Payroll System HKWorx/Images/Employee Logo.png" class="profile-avatar" id="profileAvatar">
-                    <h2 class="profile-name" id="employeeName"></h2>
-                    <div class="profile-position" id="employeePosition"></div>
-                    
-                    <button class="btn-upload" id="uploadPhotoBtn">
-                        <i class="fas fa-camera"></i> Upload Photo
-                    </button>
-                    
-                    <div class="profile-details">
-                        <div class="detail-item">
-                            <div class="detail-label">Employee ID</div>
-                            <div class="detail-value" id="employeeId"></div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Date Hired</div>
-                            <div class="detail-value" id="dateHired"></div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Department</div>
-                            <div class="detail-value" id="department"></div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Project</div>
-                            <div class="detail-value" id="currentProject"></div>
+                    <div class="profile-photo-container">
+                        <div class="profile-photo-wrapper">
+                            <img id="employeePhoto" src="/Tentative Payroll System HKWorx/Images/Employee Logo.png" alt="Employee Photo">
+                            <div class="upload-overlay">
+                                <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+                                <button class="btn-upload" id="uploadBtn">
+                                    <i class="fas fa-camera"></i> Upload Photo
+                                </button>
+                            </div>
                         </div>
                     </div>
+                    <h2 class="profile-name" id="employeeName"></h2>
+                    <div class="profile-position" id="employeePosition"></div>
                 </div>
 
                 <!-- Profile Information -->
@@ -586,40 +720,43 @@
                     <div class="info-card">
                         <div class="info-header">
                             <h3 class="info-title">Government IDs</h3>
+                            <button class="btn-edit" id="editGovtIds">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
                         </div>
                         
-                        <div class="info-grid">
+                        <div class="info-grid" id="govtIdsContainer">
+                            <div class="info-group">
+                                <div class="info-label">SSS Number</div>
+                                <div class="info-value" data-field="sss"></div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">PhilHealth Number</div>
+                                <div class="info-value" data-field="philhealth"></div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">Pag-IBIG Number</div>
+                                <div class="info-value" data-field="pagibig"></div>
+                            </div>
                             <div class="info-group">
                                 <div class="info-label">TIN</div>
-                                <div class="info-value" id="tinNumber"></div>
-                            </div>
-                            <div class="info-group">
-                                <div class="info-label">SSS</div>
-                                <div class="info-value" id="sssNumber"></div>
-                            </div>
-                            <div class="info-group">
-                                <div class="info-label">PhilHealth</div>
-                                <div class="info-value" id="philhealthNumber"></div>
-                            </div>
-                            <div class="info-group">
-                                <div class="info-label">Pag-IBIG</div>
-                                <div class="info-value" id="pagibigNumber"></div>
+                                <div class="info-value" data-field="tin"></div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Emergency Contacts -->
-                    <div class="info-card">
-                        <div class="info-header">
+                    <div class="emergency-contacts">
+                        <div class="contacts-header">
                             <h3 class="info-title">Emergency Contacts</h3>
-                            <button class="btn-edit">
-                                <i class="fas fa-pencil-alt"></i> Edit
+                            <button class="btn btn-primary" id="add-contact">
+                                <i class="fas fa-plus"></i> Add Contact
                             </button>
                         </div>
                         
-                        <div class="contacts-grid">
-    <!-- Emergency contact cards will be inserted here dynamically -->
-</div>
+                        <div class="contacts-grid" id="contacts-container">
+                            <!-- Contacts will be added here dynamically -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -627,18 +764,366 @@
     </div>
 
     <script>
-        // Upload photo button functionality
-        document.getElementById('uploadPhotoBtn').addEventListener('click', function() {
-            // In a real implementation, this would open a file dialog
-            alert('Photo upload functionality would be implemented here');
+        // Photo Upload Functionality
+        document.getElementById('uploadBtn').addEventListener('click', function() {
+            document.getElementById('photoUpload').click();
         });
 
-        // Edit button functionality
-        document.querySelectorAll('.btn-edit').forEach(button => {
-            button.addEventListener('click', function() {
-                const section = this.closest('.info-card').querySelector('.info-title').textContent;
-                alert(`Edit functionality for ${section} would be implemented here`);
+        document.getElementById('photoUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Validate file type
+                if (!file.type.match('image.*')) {
+                    alert('Please select an image file (JPEG, PNG, etc.)');
+                    return;
+                }
+                
+                // Validate file size (max 2MB)
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Image size should be less than 2MB');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('employeePhoto').src = event.target.result;
+                    
+                    // In a real app, you would upload to server here
+                    // uploadPhotoToServer(file);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // In a complete implementation, this would handle the actual upload
+        /*
+        function uploadPhotoToServer(file) {
+            const formData = new FormData();
+            formData.append('photo', file);
+            
+            fetch('/api/upload-photo', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Upload successful:', data);
+            })
+            .catch(error => {
+                console.error('Upload error:', error);
             });
+        }
+        */
+
+        // Upload photo button functionality
+        // document.getElementById('uploadPhotoBtn').addEventListener('click', function() {
+        //     // In a real implementation, this would open a file dialog
+        //     alert('Photo upload functionality would be implemented here');
+        // });
+
+        // Profile edit functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Edit mode toggle
+            const editBtns = document.querySelectorAll('.btn-edit');
+            editBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.info-card');
+                    const isEditing = card.classList.toggle('editing');
+                    
+                    // Toggle form inputs
+                    const infoValues = card.querySelectorAll('.info-value');
+                    infoValues.forEach(value => {
+                        if (isEditing) {
+                            const currentValue = value.textContent;
+                            value.innerHTML = `<input type="text" class="form-control" value="${currentValue}">`;
+                        } else {
+                            const input = value.querySelector('input');
+                            if (input) {
+                                value.textContent = input.value;
+                            }
+                        }
+                    });
+                    
+                    // Toggle button text
+                    this.innerHTML = isEditing 
+                        ? '<i class="fas fa-save"></i> Save' 
+                        : '<i class="fas fa-edit"></i> Edit';
+                });
+            });
+            
+            // Enhanced Emergency Contacts Functionality
+            const contactsContainer = document.getElementById('contacts-container');
+            const addContactBtn = document.getElementById('add-contact');
+            
+            // Add new contact
+            addContactBtn.addEventListener('click', function() {
+                const contactCard = document.createElement('div');
+                contactCard.className = 'contact-card';
+                contactCard.innerHTML = `
+                    <div class="contact-form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Full Name" required>
+                            <div class="invalid-feedback">Please enter a name</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Relationship (e.g. Spouse, Parent)" required>
+                            <div class="invalid-feedback">Please specify relationship</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" class="form-control" placeholder="Phone Number" required>
+                            <div class="invalid-feedback">Valid phone number required</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Email (optional)">
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="primary-contact"> 
+                                Set as primary contact
+                            </label>
+                        </div>
+                        <div class="contact-actions">
+                            <button class="btn btn-primary save-contact">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                            <button class="btn btn-outline-secondary cancel-contact">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                contactsContainer.prepend(contactCard);
+                
+                // Focus on first input
+                contactCard.querySelector('input').focus();
+                
+                // Add event listeners
+                contactCard.querySelector('.save-contact').addEventListener('click', saveContact);
+                contactCard.querySelector('.cancel-contact').addEventListener('click', () => {
+                    if (!contactCard.querySelector('.contact-name') || confirm('Cancel without saving?')) {
+                        contactCard.remove();
+                    }
+                });
+            });
+            
+            // Save contact function
+            function saveContact() {
+                const form = this.closest('.contact-form');
+                const inputs = form.querySelectorAll('input[required]');
+                let isValid = true;
+                
+                // Validate inputs
+                inputs.forEach(input => {
+                    if (!input.value.trim()) {
+                        input.classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        input.classList.remove('is-invalid');
+                    }
+                });
+                
+                if (isValid) {
+                    const contactCard = this.closest('.contact-card');
+                    const isPrimary = form.querySelector('.primary-contact').checked;
+                    const [name, relation, phone, email] = Array.from(form.querySelectorAll('input:not(.primary-contact)')).map(i => i.value);
+                    
+                    contactCard.className = `contact-card ${isPrimary ? 'primary' : ''}`;
+                    contactCard.innerHTML = `
+                        ${isPrimary ? '<span class="contact-badge">Primary</span>' : ''}
+                        <h4 class="contact-name">${name}</h4>
+                        <p class="contact-relation">${relation}</p>
+                        <div class="contact-details">
+                            <div><i class="fas fa-phone"></i> ${formatPhone(phone)}</div>
+                            ${email ? `<div><i class="fas fa-envelope"></i> ${email}</div>` : ''}
+                        </div>
+                        <div class="contact-actions">
+                            <button class="btn btn-sm btn-outline-primary edit-contact">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger delete-contact">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    `;
+                    
+                    // Reorder contacts to keep primary first
+                    reorderContacts();
+                    
+                    // Add event listeners
+                    contactCard.querySelector('.edit-contact').addEventListener('click', editContact);
+                    contactCard.querySelector('.delete-contact').addEventListener('click', deleteContact);
+                }
+            }
+            
+            // Edit contact function
+            function editContact() {
+                const contactCard = this.closest('.contact-card');
+                const isPrimary = contactCard.classList.contains('primary');
+                const name = contactCard.querySelector('.contact-name').textContent;
+                const relation = contactCard.querySelector('.contact-relation').textContent;
+                const phone = contactCard.querySelector('.contact-details div:nth-child(1)').textContent.replace(/\D/g,'');
+                const emailEl = contactCard.querySelector('.contact-details div:nth-child(2)');
+                const email = emailEl ? emailEl.textContent.replace(/^\s+|\s+$/g, '') : '';
+                
+                contactCard.innerHTML = `
+                    <div class="contact-form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" value="${name}" required>
+                            <div class="invalid-feedback">Please enter a name</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" value="${relation}" required>
+                            <div class="invalid-feedback">Please specify relationship</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" class="form-control" value="${phone}" required>
+                            <div class="invalid-feedback">Valid phone number required</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" value="${email}" placeholder="Email (optional)">
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" class="primary-contact" ${isPrimary ? 'checked' : ''}> 
+                                Set as primary contact
+                            </label>
+                        </div>
+                        <div class="contact-actions">
+                            <button class="btn btn-primary save-contact">
+                                <i class="fas fa-save"></i> Update
+                            </button>
+                            <button class="btn btn-outline-secondary cancel-contact">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                // Focus on first input
+                contactCard.querySelector('input').focus();
+                
+                // Add event listeners
+                contactCard.querySelector('.save-contact').addEventListener('click', saveContact);
+                contactCard.querySelector('.cancel-contact').addEventListener('click', () => {
+                    // Restore original view
+                    contactCard.className = `contact-card ${isPrimary ? 'primary' : ''}`;
+                    contactCard.innerHTML = `
+                        ${isPrimary ? '<span class="contact-badge">Primary</span>' : ''}
+                        <h4 class="contact-name">${name}</h4>
+                        <p class="contact-relation">${relation}</p>
+                        <div class="contact-details">
+                            <div><i class="fas fa-phone"></i> ${formatPhone(phone)}</div>
+                            ${email ? `<div><i class="fas fa-envelope"></i> ${email}</div>` : ''}
+                        </div>
+                        <div class="contact-actions">
+                            <button class="btn btn-sm btn-outline-primary edit-contact">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger delete-contact">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    `;
+                    
+                    // Re-add event listeners
+                    contactCard.querySelector('.edit-contact').addEventListener('click', editContact);
+                    contactCard.querySelector('.delete-contact').addEventListener('click', deleteContact);
+                });
+            }
+            
+            // Delete contact function
+            function deleteContact() {
+                if (confirm('Are you sure you want to delete this contact?')) {
+                    this.closest('.contact-card').remove();
+                }
+            }
+            
+            // Helper function to format phone numbers
+            function formatPhone(phone) {
+                return phone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+            }
+            
+            // Helper function to reorder contacts (primary first)
+            function reorderContacts() {
+                const primary = contactsContainer.querySelector('.contact-card.primary');
+                if (primary) {
+                    contactsContainer.prepend(primary);
+                }
+            }
+            
+            // Initialize any existing contacts
+            document.querySelectorAll('.edit-contact').forEach(btn => {
+                btn.addEventListener('click', editContact);
+            });
+            
+            document.querySelectorAll('.delete-contact').forEach(btn => {
+                btn.addEventListener('click', deleteContact);
+            });
+        });
+        
+        // Government IDs Edit Functionality
+        document.getElementById('editGovtIds').addEventListener('click', function() {
+            const isEditing = this.innerHTML.includes('Save');
+            const infoValues = document.querySelectorAll('#govtIdsContainer .info-value');
+            
+            // Toggle between view/edit modes
+            infoValues.forEach(value => {
+                const field = value.getAttribute('data-field');
+                if (!isEditing) {
+                    const currentValue = value.textContent;
+                    value.innerHTML = `<input type="text" class="govt-id-input" 
+                                      id="${field}-input" value="${currentValue}">`;
+                } else {
+                    const input = value.querySelector('input');
+                    value.textContent = input.value;
+                }
+            });
+            
+            // Update button text/icon
+            this.innerHTML = isEditing 
+                ? '<i class="fas fa-edit"></i> Edit' 
+                : '<i class="fas fa-save"></i> Save';
+            
+            // Focus on first field when editing
+            if (!isEditing) {
+                document.getElementById('sss-input').focus();
+            }
+        });
+
+        // Input formatting
+        function formatGovtId(input, type) {
+            let value = input.value.replace(/[^0-9]/g, '');
+            
+            switch(type) {
+                case 'sss':
+                    if (value.length > 2) value = value.substring(0,2) + '-' + value.substring(2);
+                    if (value.length > 10) value = value.substring(0,10) + '-' + value.substring(10,11);
+                    break;
+                case 'philhealth':
+                    if (value.length > 2) value = value.substring(0,2) + '-' + value.substring(2);
+                    if (value.length > 11) value = value.substring(0,11) + '-' + value.substring(11,12);
+                    break;
+                case 'pagibig':
+                    if (value.length > 4) value = value.substring(0,4) + '-' + value.substring(4);
+                    if (value.length > 9) value = value.substring(0,9) + '-' + value.substring(9);
+                    break;
+                case 'tin':
+                    if (value.length > 3) value = value.substring(0,3) + '-' + value.substring(3);
+                    if (value.length > 7) value = value.substring(0,7) + '-' + value.substring(7);
+                    if (value.length > 11) value = value.substring(0,11) + '-' + value.substring(11);
+                    break;
+            }
+            
+            input.value = value;
+        }
+
+        // Add event listeners for live formatting
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('govt-id-input')) {
+                const field = e.target.id.split('-')[0];
+                e.target.addEventListener('input', () => formatGovtId(e.target, field));
+            }
         });
     </script>
 </body>

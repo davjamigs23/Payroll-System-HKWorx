@@ -581,6 +581,31 @@
                 align-items: flex-start;
             }
         }
+
+        .btn-logout {
+            background: transparent;
+            border: none;
+            color: var(--danger);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            font-weight: 500;
+            margin-right: 1rem;
+        }
+
+        .btn-logout:hover {
+            background: rgba(239, 35, 60, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -634,12 +659,16 @@
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Search...">
             </div>
-
-            <div class="user-profile">
-                <img src="/Tentative Payroll System HKWorx/Images/Employee Logo.png" alt="User Profile">
-                <div class="user-info">
-                    <div class="user-name">Employee Name</div>
-                    <div class="user-role">Employee</div>
+            <div class="header-actions">
+                <button class="btn-logout" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+                <div class="user-profile">
+                    <img src="/Tentative Payroll System HKWorx/Images/Employee Logo.png" alt="User Profile">
+                    <div class="user-info">
+                        <div class="user-name">Employee Name</div>
+                        <div class="user-role">Employee</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -751,30 +780,8 @@
                         <div class="card-header">
                             <div class="card-title">My Recent Activity</div>
                         </div>
-
-                        <div class="activity-item">
-                            <div class="activity-icon">
-                                <i class="fas fa-info-circle"></i>
-                            </div>
-                            <div class="activity-content">
-                                <!-- Activity title will be inserted dynamically -->
-                                <!-- Activity description will be inserted dynamically -->
-                                <div class="activity-time">Today, 8:01 AM</div>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-icon success">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div class="activity-content">
-                                <!-- Activity title will be inserted dynamically -->
-                                <!-- Activity description will be inserted dynamically -->
-                                <div class="activity-time">Yesterday, 4:23 PM</div>
-                            </div>
-                        </div>
+                        <!-- Activity items will be populated dynamically -->
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -787,6 +794,12 @@
             progressBars.forEach(bar => {
                 bar.style.width = '0';
             });
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = '../Sign In.html';
+            }
         });
     </script>
 </body>
